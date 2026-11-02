@@ -13,9 +13,20 @@ export function ProjectShowcase() {
   const active = projects.find((project) => project.slug === activeSlug) ?? projects[0];
 
   return (
-    <div className="project-showcase grid gap-8 lg:grid-cols-12 lg:gap-12">
+    <div className="project-showcase">
+      <div className="project-showcase-intro mb-8 flex flex-col gap-5 border-y border-line py-5 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="label text-accent">A closer look / selected systems</p>
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-mute sm:text-base">Real interfaces, product decisions and the engineering underneath — presented as a working archive, not a row of thumbnails.</p>
+        </div>
+        <p className="label shrink-0">Hover or focus to inspect</p>
+      </div>
+      <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
       <div className="order-2 lg:order-1 lg:col-span-4">
-        <p className="label mb-4">Project index <span className="text-accent">/ {String(projects.length).padStart(2, "0")}</span></p>
+        <div className="mb-5 flex items-end justify-between gap-4">
+          <p className="label">Project index <span className="text-accent">/ {String(projects.length).padStart(2, "0")}</span></p>
+          <span className="project-showcase-index-mark" aria-hidden="true">{String(projects.findIndex((project) => project.slug === active.slug) + 1).padStart(2, "0")}</span>
+        </div>
         <div className="project-index-list">
           {projects.map((project, index) => (
             <button
@@ -62,6 +73,11 @@ export function ProjectShowcase() {
                   <div><p className="label mb-2">My role</p><p className="text-sm text-fg/85">{active.role}</p></div>
                   <div><p className="label mb-2">In focus</p><p className="text-sm text-fg/85">{active.highlights[0]}</p></div>
                 </div>
+                <div className="project-highlight-strip mt-5 grid gap-3 border-y border-line py-4 sm:grid-cols-3">
+                  <div><p className="label mb-1">Build</p><p className="text-xs text-mute">{active.stack.slice(0, 2).join(" + ")}</p></div>
+                  <div><p className="label mb-1">Format</p><p className="text-xs text-mute">{active.category.split(" · ")[0]}</p></div>
+                  <div><p className="label mb-1">Status</p><p className="text-xs text-accent">Shipped ↗</p></div>
+                </div>
                 <ul className="mt-4 flex flex-wrap gap-2">
                   {active.stack.slice(0, 5).map((item) => <li key={item} className="chip">{item}</li>)}
                 </ul>
@@ -71,6 +87,7 @@ export function ProjectShowcase() {
             <div className="mt-6"><ProjectLinks project={active} /></div>
           </motion.article>
         </AnimatePresence>
+      </div>
       </div>
     </div>
   );
