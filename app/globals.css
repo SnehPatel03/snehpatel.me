@@ -266,15 +266,47 @@ html.has-custom-cursor input, html.has-custom-cursor textarea, html.has-custom-c
 }
 
 .project-showcase-detail {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   border-radius: 1.4rem;
-  background: var(--project-glow, radial-gradient(ellipse at 50% 110%, rgba(183, 167, 255, .16), transparent 68%));
-  transition: background 500ms ease;
+  background: var(--project-glow, radial-gradient(ellipse at 50% 110%, rgba(235, 235, 235, .12), transparent 68%)), #080808;
+  transition: background 500ms ease, box-shadow 500ms ease;
 }
-.project-showcase-detail[data-project="gurukul"] { --project-glow: radial-gradient(ellipse at 68% 100%, rgba(242, 242, 239, .14), transparent 68%); }
-.project-showcase-detail[data-project="opal"] { --project-glow: radial-gradient(ellipse at 45% 100%, rgba(242, 242, 239, .14), transparent 68%); }
-.project-showcase-detail[data-project="whisperpdf"] { --project-glow: radial-gradient(ellipse at 40% 100%, rgba(242, 242, 239, .12), transparent 68%); }
-.project-showcase-detail[data-project="quizsprint"] { --project-glow: radial-gradient(ellipse at 64% 100%, rgba(242, 242, 239, .10), transparent 68%); }
-.project-showcase-detail[data-project="dropee"] { --project-glow: radial-gradient(ellipse at 58% 100%, rgba(242, 242, 239, .11), transparent 68%); }
+.project-showcase-detail::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(135deg, var(--project-wash, rgba(255,255,255,.03)), transparent 42%, var(--project-wash-deep, rgba(255,255,255,.01)) 86%);
+  content: "";
+  pointer-events: none;
+}
+.project-showcase-detail[data-project="gurukul"] {
+  --project-glow: radial-gradient(ellipse at 70% 92%, rgba(82, 103, 176, .42), transparent 56%), radial-gradient(ellipse at 17% 28%, rgba(207, 176, 111, .17), transparent 42%);
+  --project-wash: rgba(82, 103, 176, .14);
+  --project-wash-deep: rgba(207, 176, 111, .06);
+  box-shadow: 0 30px 100px rgba(55, 75, 135, .12);
+}
+.project-showcase-detail[data-project="opal"] {
+  --project-glow: radial-gradient(ellipse at 45% 100%, rgba(190, 129, 94, .32), transparent 58%), radial-gradient(ellipse at 90% 15%, rgba(238, 199, 135, .14), transparent 42%);
+  --project-wash: rgba(190, 129, 94, .11);
+  --project-wash-deep: rgba(238, 199, 135, .05);
+}
+.project-showcase-detail[data-project="whisperpdf"] {
+  --project-glow: radial-gradient(ellipse at 40% 100%, rgba(91, 145, 151, .34), transparent 58%), radial-gradient(ellipse at 88% 18%, rgba(204, 224, 219, .12), transparent 42%);
+  --project-wash: rgba(91, 145, 151, .11);
+  --project-wash-deep: rgba(204, 224, 219, .05);
+}
+.project-showcase-detail[data-project="quizsprint"] {
+  --project-glow: radial-gradient(ellipse at 64% 100%, rgba(137, 103, 171, .34), transparent 58%), radial-gradient(ellipse at 14% 18%, rgba(225, 193, 125, .13), transparent 42%);
+  --project-wash: rgba(137, 103, 171, .11);
+  --project-wash-deep: rgba(225, 193, 125, .05);
+}
+.project-showcase-detail[data-project="dropee"] {
+  --project-glow: radial-gradient(ellipse at 58% 100%, rgba(74, 136, 122, .28), transparent 58%), radial-gradient(ellipse at 86% 16%, rgba(208, 225, 201, .12), transparent 42%);
+  --project-wash: rgba(74, 136, 122, .10);
+  --project-wash-deep: rgba(208, 225, 201, .05);
+}
 .project-open-link { position: relative; overflow: hidden; }
 .project-open-link::after { position: absolute; inset: 0; content: ""; background: var(--color-accent); transform: translateY(102%); transition: transform 320ms cubic-bezier(.2,.8,.2,1); }
 .project-open-link:hover::after { transform: translateY(0); }
