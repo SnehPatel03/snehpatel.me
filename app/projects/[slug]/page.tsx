@@ -55,7 +55,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
 
       <p className="label mb-4">{project.category} · {project.period}</p>
       <h1 className="display-type text-[clamp(3rem,10vw,8rem)] font-bold uppercase leading-[.86] tracking-[-0.075em]">{project.name}</h1>
-      <p className="mt-5 max-w-3xl font-serif text-3xl italic text-accent sm:text-4xl">{project.tagline}</p>
+      <p className="mt-5 max-w-3xl text-3xl font-semibold tracking-tight text-accent sm:text-4xl">{project.tagline}</p>
       <div className="mt-8"><ProjectLinks project={project} /></div>
 
       <div className="mt-14"><ProjectMockup project={project} priority /></div>

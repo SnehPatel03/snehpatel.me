@@ -41,9 +41,18 @@ export function Loader() {
     <AnimatePresence onExitComplete={enterIntro}>
       {visible && (
         <motion.div
-          aria-hidden="true"
+          aria-label="Skip portfolio intro"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              try { sessionStorage.setItem(KEY, "1"); } catch {}
+              setVisible(false);
+            }
+          }}
           onClick={() => { try { sessionStorage.setItem(KEY, "1"); } catch {} setVisible(false); }}
-          className="portfolio-loader fixed inset-0 z-[100] flex cursor-pointer flex-col justify-between overflow-hidden bg-bg px-6 py-6 sm:px-10 sm:py-9"
+          className="portfolio-loader fixed inset-0 z-[100] flex cursor-pointer flex-col justify-between overflow-hidden bg-bg px-6 py-6 outline-none sm:px-10 sm:py-9"
           initial={{ y: 0 }}
           exit={{ y: "-100%" }}
           transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
@@ -56,6 +65,7 @@ export function Loader() {
           <div className="loader-mark-wrap relative flex flex-1 items-center justify-center">
             <motion.div
               className="loader-mark display-type select-none font-black leading-[.76] tracking-[-.12em] text-fg"
+              aria-label="Sneh Patel portfolio"
               initial={{ opacity: 0, scale: .84, filter: "blur(12px)" }}
               animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
               transition={{ duration: .85, delay: .08, ease: [0.22, 1, 0.36, 1] }}

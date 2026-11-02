@@ -83,7 +83,7 @@ export function About() {
       <SectionHead
         index="01"
         label="About"
-        title={<>A little about <em className="font-serif font-normal italic text-accent">how I work.</em></>}
+        title={<>A little about <span className="font-sans font-semibold text-accent">how I work.</span></>}
       />
       <div className="about-bento grid auto-rows-[minmax(10rem,auto)] gap-3 sm:grid-cols-2 lg:grid-cols-12">
         <Reveal className="bento-tile about-card about-card-intro flex flex-col justify-between p-6 sm:col-span-2 lg:col-span-7 lg:row-span-2 lg:p-9">
@@ -93,7 +93,7 @@ export function About() {
           </div>
           <div className="relative z-10 mt-12 max-w-2xl">
             <h3 className="display-type max-w-[14ch] text-4xl font-bold leading-[.92] tracking-[-.075em] sm:text-5xl lg:text-6xl">
-              Make the complex feel <em className="font-serif font-normal italic text-accent">clear.</em>
+              Make the complex feel <span className="font-sans font-semibold text-accent">clear.</span>
             </h3>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-mute sm:text-lg">
               I&apos;m a full-stack developer and Computer Engineering student at GTU. I enjoy the whole product loop: understanding a problem, shaping its data, building the interface, and refining the details people use every day.
@@ -155,7 +155,7 @@ export function About() {
 export function Services() {
   return (
     <section id="services" className={`${wrap} py-28`}>
-      <SectionHead index="02" label="Services" title={<>What I <em className="font-serif font-normal italic text-accent">do.</em></>} />
+      <SectionHead index="02" label="Services" title={<>What I <span className="font-sans font-semibold text-accent">do.</span></>} />
       <div className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
         {services.map((s, i) => (
           <Reveal key={s.n} delay={i * 0.06} className="bg-bg">
@@ -179,7 +179,7 @@ export function Services() {
 export function Work() {
   return (
     <section id="work" className={`${wrap} py-28`}>
-      <SectionHead index="03" label="Selected work" title={<>Built for the <em className="font-serif font-normal italic text-accent">real world.</em></>} />
+      <SectionHead index="03" label="Selected work" title={<>Built for the <span className="font-sans font-semibold text-accent">real world.</span></>} />
       <ProjectShowcase />
       <div className="mt-12">
         <Link href="/projects" className="label inline-block border-b border-accent pb-1 text-fg hover:text-accent">
@@ -192,7 +192,7 @@ export function Work() {
 
 export function EngineeringNotes() {
   return <section id="notes" className={`${wrap} py-28`}>
-    <SectionHead index="04" label="Engineering notes" title={<>Decisions behind the <em className="font-serif font-normal italic text-accent">work.</em></>} />
+    <SectionHead index="04" label="Engineering notes" title={<>Decisions behind the <span className="font-sans font-semibold text-accent">work.</span></>} />
     <div className="grid gap-4 md:grid-cols-3">
       {engineeringNotes.map((note) => <article key={note.project} className="rounded-2xl border border-line p-6">
         <p className="label">{note.project}</p><h3 className="mt-5 text-xl font-semibold">{note.title}</h3><p className="mt-3 text-mute">{note.body}</p>
@@ -204,7 +204,7 @@ export function EngineeringNotes() {
 export function Experience() {
   return (
     <section id="archive" className={`${wrap} py-28`}>
-      <SectionHead index="05" label="Archive" title={<>Experience &amp; <em className="font-serif font-normal italic text-accent">study.</em></>} />
+      <SectionHead index="05" label="Archive" title={<>Experience &amp; <span className="font-sans font-semibold text-accent">study.</span></>} />
       <div className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line lg:grid-cols-2">
         <Reveal className="bg-bg">
           <div className="p-8">
@@ -241,7 +241,7 @@ export function Experience() {
 export function StackSection() {
   return (
     <section id="stack" className={`${wrap} py-28`}>
-      <SectionHead index="06" label="Stack" title={<>A toolkit for <em className="font-serif font-normal italic text-accent">shipping.</em></>} />
+      <SectionHead index="06" label="Stack" title={<>A toolkit for <span className="font-sans font-semibold text-accent">shipping.</span></>} />
       <p className="mb-8 max-w-2xl text-lg text-mute">The languages, frameworks and systems I use across shipped web, AI and mobile work.</p>
       <div className="stack-matrix border-t border-line">
         {stackGroups.map((g, i) => (
@@ -261,7 +261,7 @@ export function StackSection() {
 export function Contact() {
   return (
     <section id="contact" className={`${wrap} py-28`}>
-      <SectionHead index="07" label="Contact" title={<>Have a role or idea? <em className="font-serif font-normal italic text-accent">Let&apos;s talk.</em></>} />
+      <SectionHead index="07" label="Contact" title={<>Have a role or idea? <span className="font-sans font-semibold text-accent">Let&apos;s talk.</span></>} />
       <div className="grid gap-14 lg:grid-cols-2">
         <Reveal>
           <p className="max-w-md text-lg text-mute">
