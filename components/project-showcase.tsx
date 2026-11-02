@@ -57,6 +57,7 @@ export function ProjectShowcase() {
           <motion.article
             key={active.slug}
             className="project-showcase-detail"
+            data-project={active.slug}
             initial={reduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}

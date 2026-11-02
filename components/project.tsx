@@ -10,9 +10,9 @@ export function ProjectLinks({ project }: { project: Project }) {
         href={project.live}
         target="_blank"
         rel="noopener noreferrer"
-        className="min-h-11 rounded-full bg-fg px-5 py-2 font-medium text-bg transition hover:bg-accent"
+        className="project-open-link min-h-11 rounded-full bg-fg px-5 py-2 font-medium text-bg transition"
       >
-        Live demo ↗
+        Open live project <span aria-hidden="true">↗</span>
       </a>}
       {project.repos.map((r) => (
         <a

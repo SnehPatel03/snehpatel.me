@@ -6,7 +6,7 @@
   --color-line: #242426;
   --color-fg: #f2f2ef;
   --color-mute: #929296;
-  --color-accent: #d7ff4f;
+  --color-accent: #b7a7ff;
 }
 
 @theme inline {
@@ -30,7 +30,7 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  background-image: radial-gradient(ellipse at 50% -20%, rgba(215, 255, 79, 0.045), transparent 48%);
+  background-image: radial-gradient(ellipse at 50% -20%, rgba(183, 167, 255, 0.08), transparent 48%);
 }
 
 h1, h2, h3, h4 {
@@ -264,6 +264,24 @@ html.has-custom-cursor input, html.has-custom-cursor textarea, html.has-custom-c
 .project-showcase {
   position: relative;
 }
+
+.project-showcase-detail {
+  border-radius: 1.4rem;
+  background: var(--project-glow, radial-gradient(ellipse at 50% 110%, rgba(183, 167, 255, .16), transparent 68%));
+  transition: background 500ms ease;
+}
+.project-showcase-detail[data-project="gurukul"] { --project-glow: radial-gradient(ellipse at 68% 100%, rgba(107, 183, 255, .18), transparent 68%); }
+.project-showcase-detail[data-project="opal"] { --project-glow: radial-gradient(ellipse at 45% 100%, rgba(183, 167, 255, .18), transparent 68%); }
+.project-showcase-detail[data-project="whisperpdf"] { --project-glow: radial-gradient(ellipse at 40% 100%, rgba(91, 151, 255, .16), transparent 68%); }
+.project-showcase-detail[data-project="quizsprint"] { --project-glow: radial-gradient(ellipse at 64% 100%, rgba(255, 137, 106, .13), transparent 68%); }
+.project-showcase-detail[data-project="dropee"] { --project-glow: radial-gradient(ellipse at 58% 100%, rgba(130, 194, 255, .14), transparent 68%); }
+.project-open-link { position: relative; overflow: hidden; }
+.project-open-link::after { position: absolute; inset: 0; content: ""; background: var(--color-accent); transform: translateY(102%); transition: transform 320ms cubic-bezier(.2,.8,.2,1); }
+.project-open-link:hover::after { transform: translateY(0); }
+.project-open-link span, .project-open-link { isolation: isolate; }
+.project-open-link:hover { color: var(--color-bg); }
+.project-open-link span { position: relative; z-index: 1; }
+.project-open-link { z-index: 0; }
 .project-showcase-intro {
   background: linear-gradient(90deg, rgba(208,195,174,.055), transparent 72%);
 }
