@@ -360,8 +360,10 @@ html.has-custom-cursor input, html.has-custom-cursor textarea, html.has-custom-c
 .project-index-arrow { opacity: 0; transform: translate(-4px, 4px); transition: opacity 220ms ease, transform 220ms ease; }
 .project-index-row[aria-pressed="true"] > span:first-child { color: var(--color-accent); }
 
-.portfolio-loader { isolation: isolate; }
-.loader-mark { font-size: clamp(12rem, 42vw, 38rem); }
+.portfolio-loader { isolation: isolate; background-image: linear-gradient(rgba(242,242,239,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(242,242,239,.035) 1px, transparent 1px); background-size: 4rem 4rem; }
+ .portfolio-loader::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 50% 42%, rgba(242,242,239,.08), transparent 32%), linear-gradient(180deg, transparent 0 72%, rgba(0,0,0,.28)); }
+ .portfolio-loader > * { position: relative; z-index: 1; }
+ .loader-mark { font-size: clamp(12rem, 42vw, 38rem); }
 .loader-orbit { position: absolute; width: min(56vw, 39rem); aspect-ratio: 1; border: 1px solid rgba(235,232,225,.09); border-radius: 999px; pointer-events: none; }
 .loader-orbit-one { transform: scaleY(.32) rotate(-18deg); }
 .loader-orbit-two { width: min(74vw, 52rem); transform: scaleY(.28) rotate(28deg); border-color: rgba(208,195,174,.14); }
