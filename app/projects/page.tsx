@@ -16,7 +16,7 @@ export default function ProjectsPage() {
       <SectionHead
         index="W"
         label="Project gallery"
-        title={<>All <em className="font-serif font-normal italic text-accent">projects.</em></>}
+        title={<>All <span className="font-sans font-semibold text-accent">projects.</span></>}
       />
       <Suspense fallback={<p className="label">Loading projects…</p>}><ProjectGallery /></Suspense>
     </section>

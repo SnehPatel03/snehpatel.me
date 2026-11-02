@@ -10,7 +10,7 @@ export function Footer() {
           <div className="lg:col-span-8">
             <p className="label mb-6 flex items-center gap-3"><span className="size-2 rounded-full bg-accent" />Available for internships &amp; full-time roles</p>
             <h2 className="display-type max-w-5xl text-[clamp(3rem,8vw,7rem)] font-semibold leading-[.88] tracking-[-.075em]">
-              Let&apos;s build something <em className="font-serif font-normal text-accent">useful.</em>
+              Let&apos;s build something <span className="font-semibold text-accent">useful.</span>
             </h2>
             <a data-cursor="Send" href={`mailto:${site.email}`} className="footer-email group mt-8 inline-flex items-center gap-4 text-base text-mute transition hover:text-fg sm:text-lg">
               {site.email}<span className="footer-email-arrow grid size-10 place-items-center rounded-full border border-line text-fg transition group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:border-accent group-hover:text-accent">↗</span>

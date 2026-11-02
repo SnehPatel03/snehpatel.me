@@ -33,7 +33,7 @@ export function ContactForm() {
   if (status === "sent") {
     return (
       <div role="status" className="rounded-xl border border-line p-8">
-        <p className="font-serif text-3xl italic text-accent">Message sent ✦</p>
+        <p className="text-3xl font-semibold tracking-tight text-accent">Message sent <span aria-hidden="true">✦</span></p>
         <p className="mt-2 text-mute">Thanks — I&apos;ll get back to you soon.</p>
       </div>
     );
