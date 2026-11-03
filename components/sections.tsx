@@ -35,8 +35,13 @@ export function Hero() {
       <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center py-14 sm:py-20">
         <IntroEntrance delay={0.08}>
           <p className="label mb-6 flex items-center gap-3"><span className="text-accent">01</span><span className="h-px w-10 bg-line" />Full stack developer <span className="text-accent">/</span> Surat, India</p>
-          <h1 className="display-type max-w-full text-[clamp(4.5rem,15vw,13rem)] font-bold uppercase leading-[.82] tracking-[-0.09em] lg:whitespace-nowrap">
-            <TextReveal>Sneh <span className="text-fg">Patel</span></TextReveal>
+          <h1
+            data-cursor="contrast"
+            className="hero-name display-type max-w-full text-[clamp(4.5rem,15vw,13rem)] font-bold uppercase leading-[.82] tracking-[-0.09em] lg:whitespace-nowrap"
+          >
+            <TextReveal>
+              Sneh <span className="text-fg">Patel</span>
+            </TextReveal>
           </h1>
         </IntroEntrance>
         <div className="mt-10 flex flex-col justify-between gap-8 border-t border-line pt-6 sm:mt-14 sm:flex-row sm:items-end sm:pt-8">
@@ -178,14 +183,9 @@ export function Services() {
 
 export function Work() {
   return (
-    <section id="work" className={`${wrap} py-28`}>
-      <SectionHead index="03" label="Selected work" title={<>Built for the <span className="font-sans font-semibold text-accent">real world.</span></>} />
+    <section id="work" className="project-work-section mx-auto w-full px-5 py-24 sm:px-8 sm:py-32">
+      <SectionHead index="03" label="Selected work" title={<>Products, not just <span className="font-sans font-semibold text-accent">projects.</span></>} />
       <ProjectShowcase />
-      <div className="mt-12">
-        <Link href="/projects" className="label inline-block border-b border-accent pb-1 text-fg hover:text-accent">
-          Open the project gallery →
-        </Link>
-      </div>
     </section>
   );
 }
@@ -194,9 +194,11 @@ export function EngineeringNotes() {
   return <section id="notes" className={`${wrap} py-28`}>
     <SectionHead index="04" label="Engineering notes" title={<>Decisions behind the <span className="font-sans font-semibold text-accent">work.</span></>} />
     <div className="grid gap-4 md:grid-cols-3">
-      {engineeringNotes.map((note) => <article key={note.project} className="rounded-2xl border border-line p-6">
-        <p className="label">{note.project}</p><h3 className="mt-5 text-xl font-semibold">{note.title}</h3><p className="mt-3 text-mute">{note.body}</p>
-      </article>)}
+      {engineeringNotes.map((note, index) => <Reveal key={note.project} delay={index * 0.06}>
+        <article className="h-full rounded-2xl border border-line p-6 transition-colors duration-300 hover:border-fg/40">
+          <p className="label">{note.project}</p><h3 className="mt-5 text-xl font-semibold">{note.title}</h3><p className="mt-3 text-mute">{note.body}</p>
+        </article>
+      </Reveal>)}
     </div>
   </section>;
 }

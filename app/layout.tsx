@@ -7,7 +7,8 @@ import { Loader } from "@/components/loader";
 import { Footer } from "@/components/footer";
 import { CommandPalette } from "@/components/command-palette";
 import { ScrollProgress } from "@/components/scroll-progress";
-import { CustomCursor } from "@/components/custom-cursor";
+import { CustomCursor } from "@/components/CustomCursor";
+import { PageTransition } from "@/components/page-transition";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -97,7 +98,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ScrollProgress />
         <CustomCursor />
         <Nav />
-        <main id="main">{children}</main>
+        <PageTransition>{children}</PageTransition>
         <Footer />
         <CommandPalette />
       </body>

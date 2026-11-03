@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { Project } from "@/lib/data";
 
-/** Browser chrome wrapper for the project archive. The homepage showcase uses the captured interfaces directly. */
+/** Optional browser chrome wrapper for standalone project previews. */
 export function BrowserFrame({ url, children, label = "Live project" }: { url: string; children: React.ReactNode; label?: string }) {
   return (
     <div className="project-frame overflow-hidden rounded-[1.15rem] border border-line bg-surface">
@@ -235,7 +235,7 @@ export function ProjectMockup({ project, priority = false, presentation = "brows
               </div>
               <span className="project-view-label">MOBILE VIEW</span>
             </div>}
-            {project.screenshotMobile && <div className="project-showcase-mobile-small mx-auto w-[min(75%,18rem)]">
+            {project.screenshotMobile && <div className="project-showcase-mobile-small mx-auto w-[min(68%,16rem)]">
               <div className="project-device-frame relative aspect-[9/19] overflow-hidden rounded-[1.55rem] border border-white/15 bg-[#11110f] p-1.5 shadow-2xl">
                 <Image src={project.screenshotMobile} alt="" width={390} height={844} className="h-full w-full rounded-[1.2rem] object-cover object-top" />
                 <span className="absolute left-1/2 top-2.5 h-1 w-10 -translate-x-1/2 rounded-full bg-black/65" aria-hidden="true" />

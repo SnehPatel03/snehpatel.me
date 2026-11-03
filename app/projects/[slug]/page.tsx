@@ -5,22 +5,28 @@ import { projects, getProject } from "@/lib/data";
 import { site } from "@/lib/site";
 import { ProjectMockup } from "@/components/mockups";
 import { ProjectLinks } from "@/components/project";
+import { Reveal } from "@/components/reveal";
 
 type Params = { slug: string };
 
 export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
+  return projects.map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { slug } = await params;
-  const p = getProject(slug);
-  if (!p) return {};
+  const project = getProject(slug);
+  if (!project) return {};
   return {
-    title: `${p.name} — ${p.tagline}`,
-    description: p.summary,
-    alternates: { canonical: `/projects/${p.slug}` },
-    openGraph: { title: `${p.name} — ${p.tagline}`, description: p.summary, url: `${site.url}/projects/${p.slug}`, type: "article" },
+    title: `${project.name} — ${project.tagline}`,
+    description: project.summary,
+    alternates: { canonical: `/projects/${project.slug}` },
+    openGraph: {
+      title: `${project.name} — ${project.tagline}`,
+      description: project.summary,
+      url: `${site.url}/projects/${project.slug}`,
+      type: "article",
+    },
   };
 }
 
@@ -29,8 +35,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   const project = getProject(slug);
   if (!project) notFound();
 
-  const i = projects.findIndex((p) => p.slug === slug);
-  const next = projects[(i + 1) % projects.length];
+  const index = projects.findIndex((item) => item.slug === project.slug);
+  const next = projects[(index + 1) % projects.length];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -38,53 +44,107 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
     name: project.name,
     description: project.summary,
     applicationCategory: "WebApplication",
-    operatingSystem: "Web",
+    operatingSystem:
+      project.slug === "opal"
+        ? "Web, Windows, macOS, Linux"
+        : project.slug === "gurukul"
+          ? "Web, Android, iOS"
+          : "Web",
     ...(project.live ? { url: project.live } : {}),
     author: { "@type": "Person", name: site.name, url: site.url },
   };
 
   return (
-    <article className="mx-auto w-full max-w-7xl px-5 pb-28 pt-36 sm:px-10">
+    <article className="case-study w-full pb-28 pt-32 sm:pb-32 sm:pt-40" data-project={project.slug}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
-      <nav aria-label="Breadcrumb" className="label mb-10">
-        <Link href="/projects" className="hover:text-accent">← All projects</Link>
+
+      <div className="case-study-content mx-auto w-full max-w-[96rem] px-5 sm:px-10 lg:px-12">
+      <nav aria-label="Breadcrumb" className="case-study-breadcrumb label mb-12 flex items-center justify-between gap-4">
+        <Link href="/#work" className="transition hover:text-fg">← Selected work</Link>
+        <span>{String(index + 1).padStart(2, "0")} <span className="text-accent">/</span> {String(projects.length).padStart(2, "0")}</span>
       </nav>
 
-      <p className="label mb-4">{project.category} · {project.period}</p>
-      <h1 className="display-type text-[clamp(3rem,10vw,8rem)] font-bold uppercase leading-[.86] tracking-[-0.075em]">{project.name}</h1>
-      <p className="mt-5 max-w-3xl text-3xl font-semibold tracking-tight text-accent sm:text-4xl">{project.tagline}</p>
-      <div className="mt-8"><ProjectLinks project={project} /></div>
-
-      <div className="mt-14"><ProjectMockup project={project} priority /></div>
-
-      <div className="mt-20 grid gap-14 lg:grid-cols-12">
-        <div className="lg:col-span-7">
-          <h2 className="label mb-4">Overview</h2>
-          <p className="text-xl text-mute">{project.summary}</p>
-          <h2 className="label mb-4 mt-12">What I built</h2>
-          <ul className="space-y-4 text-lg text-mute">
-            {project.highlights.map((h) => (
-              <li key={h} className="flex gap-3"><span className="text-accent" aria-hidden="true">–</span>{h}</li>
-            ))}
-          </ul>
+      <Reveal className="case-study-hero">
+        <p className="label mb-5">{project.category}<span className="mx-2 text-accent">/</span>{project.period}</p>
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
+          <div>
+            <h1 className="display-type case-study-title font-bold uppercase">{project.name}</h1>
+            <p className="mt-5 max-w-3xl text-2xl font-medium leading-snug tracking-tight text-fg/90 sm:text-4xl">{project.tagline}</p>
+          </div>
+          <div className="case-study-hero-links flex flex-col items-start">
+            <ProjectLinks project={project} />
+          </div>
         </div>
-        <aside className="lg:col-span-5">
-          {!project.todo && <><h2 className="label mb-4">Role</h2><p className="text-mute">{project.role}</p></>}
-          <h2 className="label mb-4 mt-10">Stack</h2>
-          <ul className="flex flex-wrap gap-2">
-            {project.stack.filter((s) => !s.startsWith("TODO:")).map((s) => (<li key={s} className="chip">{s}</li>))}
-          </ul>
-        </aside>
-      </div>
+      </Reveal>
 
-      <div className="mt-24 border-t border-line pt-10">
-        <p className="label mb-3">Next project</p>
-        <Link href={`/projects/${next.slug}`} className="text-4xl font-semibold tracking-tight hover:text-accent sm:text-6xl">
-          {next.name} →
+      <Reveal className="case-study-media mt-12 sm:mt-16">
+        <ProjectMockup project={project} priority presentation="showcase" />
+      </Reveal>
+
+      <Reveal className="case-study-overview mt-20 grid gap-10 border-y border-line py-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16 lg:py-14">
+        <div>
+          <p className="label mb-4">01 <span className="mx-2 text-accent">/</span> The product</p>
+          <p className="display-type max-w-4xl text-2xl leading-relaxed tracking-tight text-fg/90 sm:text-3xl">{project.summary}</p>
+        </div>
+        <aside className="case-study-facts grid grid-cols-2 gap-x-5 gap-y-6 lg:grid-cols-1">
+          <div>
+            <p className="label mb-2">My role</p>
+            <p className="text-sm leading-relaxed text-fg/85">{project.role}</p>
+          </div>
+          <div>
+            <p className="label mb-2">Platform</p>
+            <p className="text-sm leading-relaxed text-fg/85">{project.category.split(" · ").slice(1).join(" · ") || project.category}</p>
+          </div>
+        </aside>
+      </Reveal>
+
+      <section className="case-study-build mt-20" aria-labelledby="case-study-build-title">
+        <Reveal className="mb-9 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+          <div>
+            <p className="label mb-4">02 <span className="mx-2 text-accent">/</span> Build notes</p>
+            <h2 id="case-study-build-title" className="display-type text-4xl font-semibold tracking-[-.06em] sm:text-6xl">How it comes together.</h2>
+          </div>
+          <p className="label">Product decisions <span className="text-accent">×</span> engineering</p>
+        </Reveal>
+
+        <div className="case-study-feature-grid">
+          {project.highlights.map((highlight, featureIndex) => (
+            <Reveal key={highlight} delay={featureIndex * 0.045}>
+              <article className="case-study-feature h-full">
+                <p className="label text-accent">{String(featureIndex + 1).padStart(2, "0")}</p>
+                <p className="mt-7 text-base leading-relaxed text-fg/85 sm:text-lg">{highlight}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <Reveal className="case-study-stack mt-20 grid gap-8 rounded-2xl border border-line p-6 sm:p-9 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14">
+        <div>
+          <p className="label mb-3">03 <span className="mx-2 text-accent">/</span> Toolkit</p>
+          <h2 className="display-type text-3xl font-semibold tracking-tight">Made with intent.</h2>
+        </div>
+        <ul className="flex content-start flex-wrap gap-2">
+          {project.stack.filter((technology) => !technology.startsWith("TODO:")).map((technology) => (
+            <li key={technology} className="chip">{technology}</li>
+          ))}
+        </ul>
+      </Reveal>
+
+      <Reveal className="case-study-next mt-24">
+        <p className="label mb-4">Up next <span className="text-accent">/ {String((index + 1) % projects.length + 1).padStart(2, "0")}</span></p>
+        <Link href={`/projects/${next.slug}`} className="case-study-next-link group flex flex-col justify-between gap-6 border-y border-line py-8 sm:flex-row sm:items-end sm:py-10">
+          <span>
+            <span className="label block mb-3">{next.category}</span>
+            <span className="display-type block text-5xl font-semibold uppercase leading-none tracking-[-.06em] transition-colors group-hover:text-accent sm:text-7xl">{next.name}</span>
+            <span className="mt-3 block text-base text-mute">{next.tagline}</span>
+          </span>
+          <span className="case-study-next-arrow self-end text-4xl text-accent transition-transform group-hover:translate-x-2 sm:text-5xl" aria-hidden="true">↗</span>
         </Link>
+      </Reveal>
       </div>
     </article>
   );

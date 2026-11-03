@@ -11,84 +11,97 @@ export function ProjectShowcase() {
   const [activeSlug, setActiveSlug] = useState(projects[0].slug);
   const reduceMotion = useReducedMotion();
   const active = projects.find((project) => project.slug === activeSlug) ?? projects[0];
+  const activeIndex = projects.findIndex((project) => project.slug === active.slug);
+  const nextIndex = (activeIndex + 1) % projects.length;
+  const nextProject = projects[nextIndex];
 
   return (
     <div className="project-showcase">
-      <div className="project-showcase-intro mb-8 flex flex-col gap-5 border-y border-line py-5 sm:flex-row sm:items-end sm:justify-between">
+      <div className="project-showcase-intro mb-7 flex items-end justify-between gap-5 border-y border-line py-5 sm:mb-8 sm:py-6">
         <div>
           <p className="label text-accent">A closer look / selected systems</p>
-          <p className="mt-3 max-w-xl text-sm leading-relaxed text-mute sm:text-base">Real interfaces, product decisions and the engineering underneath — presented as a working archive, not a row of thumbnails.</p>
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-mute">
+            A short list of products, with the interfaces and engineering behind them.
+          </p>
         </div>
-        <p className="label shrink-0">Hover or focus to inspect</p>
-      </div>
-      <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
-      <div className="order-2 lg:order-1 lg:col-span-4">
-        <div className="mb-5 flex items-end justify-between gap-4">
-          <p className="label">Project index <span className="text-accent">/ {String(projects.length).padStart(2, "0")}</span></p>
-          <span className="project-showcase-index-mark" aria-hidden="true">{String(projects.findIndex((project) => project.slug === active.slug) + 1).padStart(2, "0")}</span>
-        </div>
-        <div className="project-index-list">
-          {projects.map((project, index) => (
-            <button
-              key={project.slug}
-              type="button"
-              className="project-index-row group w-full text-left"
-              aria-pressed={active.slug === project.slug}
-              aria-label={`Show ${project.name} project`}
-              data-cursor="View"
-              onPointerEnter={() => setActiveSlug(project.slug)}
-              onFocus={() => setActiveSlug(project.slug)}
-              onClick={() => setActiveSlug(project.slug)}
-            >
-              <span className="font-mono text-[10px] text-mute">{String(index + 1).padStart(2, "0")}</span>
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-lg font-medium tracking-tight">{project.name}</span>
-                <span className="mt-1 block truncate text-xs text-mute">{project.category}</span>
-              </span>
-              <span className="project-index-arrow text-accent" aria-hidden="true">↗</span>
-            </button>
-          ))}
-        </div>
-        <p className="mt-5 max-w-xs text-xs leading-relaxed text-mute">Select a project to see the real interface, what it does, and the tools behind it.</p>
+        <p className="label shrink-0">{String(activeIndex + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}</p>
       </div>
 
-      <div className="order-1 min-w-0 lg:order-2 lg:col-span-8 lg:sticky lg:top-24 lg:self-start">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.article
-            key={active.slug}
-            className="project-showcase-detail"
-            data-project={active.slug}
-            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
-            transition={{ duration: reduceMotion ? 0 : 0.28, ease: "easeOut" }}
+      <div className="project-showcase-picker" role="group" aria-label="Choose a featured project">
+        {projects.map((project, index) => (
+          <button
+            key={project.slug}
+            type="button"
+            className="project-picker-item"
+            aria-pressed={active.slug === project.slug}
+            onFocus={() => setActiveSlug(project.slug)}
+            onClick={() => setActiveSlug(project.slug)}
           >
-            <ProjectMockup project={active} priority={active === projects[0]} presentation="showcase" />
-            <div className="mt-6 flex flex-wrap items-start justify-between gap-5">
-              <div className="min-w-0 flex-1">
-                <p className="label mb-3">{active.category}<span className="mx-2 text-accent">/</span>{active.period}</p>
-                <h3 className="display-type text-4xl font-semibold uppercase leading-[.92] tracking-[-.06em] sm:text-6xl">{active.name}</h3>
-                <p className="display-type mt-3 max-w-2xl text-xl leading-snug text-fg/85 sm:text-2xl">{active.tagline}</p>
-                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-mute">{active.summary}</p>
-                <div className="project-detail-note mt-5 grid gap-4 sm:grid-cols-2">
-                  <div><p className="label mb-2">My role</p><p className="text-sm text-fg/85">{active.role}</p></div>
-                  <div><p className="label mb-2">In focus</p><p className="text-sm text-fg/85">{active.highlights[0]}</p></div>
-                </div>
-                <div className="project-highlight-strip mt-5 grid gap-3 border-y border-line py-4 sm:grid-cols-3">
-                  <div><p className="label mb-1">Build</p><p className="text-xs text-mute">{active.stack.slice(0, 2).join(" + ")}</p></div>
-                  <div><p className="label mb-1">Format</p><p className="text-xs text-mute">{active.category.split(" · ")[0]}</p></div>
-                  <div><p className="label mb-1">Status</p><p className="text-xs text-accent">Shipped ↗</p></div>
-                </div>
-                <ul className="mt-4 flex flex-wrap gap-2">
-                  {active.stack.slice(0, 5).map((item) => <li key={item} className="chip">{item}</li>)}
-                </ul>
-              </div>
-              <Link href={`/projects/${active.slug}`} className="label mt-1 inline-flex min-h-10 shrink-0 items-center border-b border-accent text-fg transition hover:text-accent">Case study ↗</Link>
-            </div>
-            <div className="mt-6"><ProjectLinks project={active} /></div>
-          </motion.article>
-        </AnimatePresence>
+            <span className="project-picker-index label">{String(index + 1).padStart(2, "0")}</span>
+            <span className="project-picker-name">{project.name}</span>
+            <span className="project-picker-arrow" aria-hidden="true">↗</span>
+          </button>
+        ))}
       </div>
+
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.article
+          key={active.slug}
+          className="project-showcase-detail"
+          data-project={active.slug}
+          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+          transition={{ duration: reduceMotion ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="project-showcase-grid">
+            <div className="project-showcase-visual">
+              <ProjectMockup project={active} priority={activeIndex === 0} presentation="showcase" />
+            </div>
+
+            <div className="project-showcase-copy">
+              <p className="label">{active.category}<span className="mx-2 text-accent">/</span>{active.period}</p>
+              <h3 className="display-type project-showcase-title font-semibold uppercase">{active.name}</h3>
+              <p className="display-type mt-3 text-xl leading-snug text-fg/90 sm:text-2xl">{active.tagline}</p>
+              <p className="project-showcase-summary mt-5 text-base leading-relaxed text-mute">{active.summary}</p>
+
+              <div className="project-showcase-highlight mt-7">
+                <p className="label mb-2">In focus <span className="text-accent">/ 01</span></p>
+                <p className="text-sm leading-relaxed text-fg/85">{active.highlights[0]}</p>
+              </div>
+
+              <ul className="mt-6 flex flex-wrap gap-2" aria-label="Technology stack">
+                {active.stack.slice(0, 4).map((item) => <li key={item} className="chip">{item}</li>)}
+              </ul>
+
+              <div className="project-showcase-actions mt-7 flex flex-col items-start gap-4">
+                <Link href={`/projects/${active.slug}`} className="project-case-link label inline-flex min-h-11 items-center gap-2 border-b border-accent text-fg transition hover:text-accent">
+                  Explore case study <span aria-hidden="true">↗</span>
+                </Link>
+                <ProjectLinks project={active} />
+              </div>
+            </div>
+          </div>
+        </motion.article>
+      </AnimatePresence>
+
+      <div className="project-next-nav">
+        <div className="project-next-progress" aria-hidden="true">
+          <span style={{ width: `${((activeIndex + 1) / projects.length) * 100}%` }} />
+        </div>
+        <div className="flex items-center justify-between gap-4 pt-4">
+          <p className="label">Selected <span className="text-accent">{String(activeIndex + 1).padStart(2, "0")}</span> / {String(projects.length).padStart(2, "0")}</p>
+          <button
+            type="button"
+            className="project-next-button group"
+            onClick={() => setActiveSlug(nextProject.slug)}
+            aria-label={`Next project: ${nextProject.name}`}
+            data-cursor="link"
+          >
+            <span className="project-next-copy"><span className="label">Next project</span><span className="project-next-name">{nextProject.name}</span></span>
+            <span className="project-next-arrow" aria-hidden="true">↗</span>
+          </button>
+        </div>
       </div>
     </div>
   );

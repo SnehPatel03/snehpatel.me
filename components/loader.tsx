@@ -2,92 +2,89 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-
-const KEY = "sp-loaded";
-const enterIntro = () => window.dispatchEvent(new Event("portfolio:intro-enter"));
+import { usePathname } from "next/navigation";
 
 export function Loader() {
   const [visible, setVisible] = useState(false);
-  const [count, setCount] = useState(0);
-  const reduceMotion = useReducedMotion();
+  const [progress, setProgress] = useState(0);
+  const reducedMotion = useReducedMotion();
+  const pathname = usePathname();
 
   useEffect(() => {
-    let seen = false;
-    try { seen = sessionStorage.getItem(KEY) === "1"; } catch { seen = true; }
-    if (seen || reduceMotion) {
-      requestAnimationFrame(enterIntro);
-      return;
+    if (reducedMotion) {
+      const frame = requestAnimationFrame(() => setVisible(false));
+      return () => cancelAnimationFrame(frame);
     }
 
-    const start = performance.now();
-    const duration = 1450;
-    let raf = 0;
-    let exitTimer = 0;
-    const show = requestAnimationFrame(() => setVisible(true));
-    const tick = (now: number) => {
-      const t = Math.min((now - start) / duration, 1);
-      setCount(Math.round((1 - (1 - t) ** 3) * 100));
-      if (t < 1) raf = requestAnimationFrame(tick);
-      else {
-        try { sessionStorage.setItem(KEY, "1"); } catch {}
-        exitTimer = window.setTimeout(() => setVisible(false), 300);
+    const duration = 1320;
+    let frame = 0;
+    let hideTimer = 0;
+    const update = (now: number) => {
+      const ratio = Math.min((now - start) / duration, 1);
+      const accelerated = (Math.exp(3 * ratio) - 1) / (Math.exp(3) - 1);
+      setProgress(Math.round(accelerated * 100));
+      if (ratio < 1) {
+        frame = requestAnimationFrame(update);
+      } else {
+        hideTimer = window.setTimeout(() => setVisible(false), 220);
       }
     };
-    raf = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(show); cancelAnimationFrame(raf); window.clearTimeout(exitTimer); };
-  }, [reduceMotion]);
+    let start = 0;
+    frame = requestAnimationFrame(() => {
+      setProgress(0);
+      setVisible(true);
+      start = performance.now();
+      frame = requestAnimationFrame(update);
+    });
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.clearTimeout(hideTimer);
+    };
+  }, [pathname, reducedMotion]);
 
   return (
-    <AnimatePresence onExitComplete={enterIntro}>
+    <AnimatePresence>
       {visible && (
         <motion.div
-          aria-label="Skip portfolio intro"
-          role="button"
-          tabIndex={0}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" || event.key === " ") {
-              event.preventDefault();
-              try { sessionStorage.setItem(KEY, "1"); } catch {}
-              setVisible(false);
-            }
-          }}
-          onClick={() => { try { sessionStorage.setItem(KEY, "1"); } catch {} setVisible(false); }}
-          className="portfolio-loader fixed inset-0 z-[100] flex cursor-pointer flex-col justify-between overflow-hidden bg-bg px-6 py-6 outline-none sm:px-10 sm:py-9"
-          initial={{ y: 0 }}
-          exit={{ y: "-100%" }}
-          transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
+          aria-label="Portfolio loading"
+          className="portfolio-loader fixed inset-0 z-[100] flex items-center justify-center"
+          key={pathname}
+          initial={{ opacity: 1 }}
+          exit={{ clipPath: "inset(0 0 100% 0 round 0px)", opacity: 0.98 }}
+          transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         >
-          <div className="flex items-center justify-between">
-            <span className="label text-fg">Sneh Patel <span className="px-2 text-accent">/</span> Portfolio</span>
-            <span className="label">Surat, India</span>
+          <div className="loader-core">
+            <motion.span
+              className="loader-index label"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            >PORTFOLIO · 2026</motion.span>
+            <motion.span
+              className="loader-initials display-type"
+              initial={{ opacity: 0, y: 28, scale: 0.96, filter: "blur(10px)" }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+              transition={{ duration: 1, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+            >S<span className="loader-letter-gap">P</span><span className="text-accent">.</span></motion.span>
+            <motion.span
+              className="loader-owner label"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.36, ease: [0.22, 1, 0.36, 1] }}
+            >Sneh Patel · Full stack developer</motion.span>
           </div>
-
-          <div className="loader-mark-wrap relative flex flex-1 items-center justify-center">
-            <motion.div
-              className="loader-mark display-type select-none font-black leading-[.76] tracking-[-.12em] text-fg"
-              aria-label="Sneh Patel portfolio"
-              initial={{ opacity: 0, scale: .84, filter: "blur(12px)" }}
-              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-              transition={{ duration: .85, delay: .08, ease: [0.22, 1, 0.36, 1] }}
-            >
-              SP<span className="text-accent">.</span>
-            </motion.div>
-            <span className="loader-orbit loader-orbit-one" aria-hidden="true" />
-            <span className="loader-orbit loader-orbit-two" aria-hidden="true" />
-          </div>
-
-          <div>
-            <div className="mb-4 flex items-end justify-between gap-4">
-              <div>
-                <p className="label mb-2 text-accent">Full stack <span className="px-1 text-mute">/</span> AI</p>
-                <p className="label text-mute">Loading work &amp; details</p>
-              </div>
-              <p className="loader-counter display-type text-4xl font-semibold tabular-nums tracking-[-.08em] sm:text-6xl">
-                {count.toString().padStart(3, "0")}<span className="text-accent">%</span>
-              </p>
-            </div>
-            <div className="h-px w-full bg-line"><span className="block h-full bg-accent shadow-[0_0_14px_rgba(208,195,174,.55)]" style={{ width: `${count}%` }} /></div>
-            <p className="label mt-3 text-right">Click anywhere to skip</p>
+          <div
+            className="loader-progress"
+            role="progressbar"
+            aria-label="Loading portfolio"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={progress}
+          >
+            <span className="loader-progress-caption label">Preparing the experience</span>
+            <span className="loader-progress-bar" style={{ transform: `scaleX(${progress / 100})` }} />
+            <span className="loader-counter tabular-nums">{String(progress).padStart(2, "0")}<span className="loader-percent">%</span></span>
           </div>
         </motion.div>
       )}

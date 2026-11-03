@@ -1,6 +1,6 @@
 # Sneh Patel — Portfolio
 
-Next.js App Router portfolio with a dark-only warm monochrome design, name-led hero, Bricolage Grotesque display type, Inter body type and JetBrains Mono labels, an SP preloader, custom pointer cursor, scroll-triggered text reveals, an About bento grid, interactive project showcase with real desktop and mobile captures, static case studies, URL-synced gallery, keyboard command palette, print-ready resume and contact API.
+Next.js App Router portfolio with a dark-only warm monochrome design, name-led hero, Bricolage Grotesque display type, Inter body type and JetBrains Mono labels, an SP preloader, custom pointer cursor, scroll-triggered text reveals, an About bento grid, one interactive Work section with real desktop and mobile project captures, individual case studies, keyboard command palette, print-ready resume and contact API.
 
 ## Run locally
 
@@ -24,13 +24,13 @@ npm run build
 - `lib/data.ts`: projects, experience, education, skills, engineering notes and owner TODOs.
 - `.env.local`: `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, and `CONTACT_FROM_EMAIL` for contact delivery. Never commit secrets.
 
-To add a project, add one typed entry in `lib/data.ts` with a unique slug, live URL, one or more repos, summary, highlights, stack and featured flag. The sitemap, gallery and static case study pages are generated from this data.
+To add a project, add one typed entry in `lib/data.ts` with a unique slug, live URL, one or more repos, summary, highlights, stack and featured flag. The Work selector, sitemap and static case-study pages are generated from this data. The old `/projects` index redirects to `/#work` so all projects stay in one place.
 
 Current portfolio previews use WebP captures from each project's public live page in `public/projects/`. Refresh them after meaningful UI changes by capturing the deployed URL at 1600×1000. Built-in UI mockups remain available as a fallback when no screenshot path is set.
 
 ## Resume
 
-Visit `/resume` and choose **Print / Save as PDF**. Add a downloadable PDF asset when one is available.
+Visit `/resume` to view the HTML resume, download the uploaded PDF, or print the page.
 
 ## Deploy to Vercel
 
@@ -38,7 +38,7 @@ Configure `NEXT_PUBLIC_SITE_URL` and the optional Resend variables, then deploy 
 
 ## Included
 
-Per-route metadata/canonicals, Open Graph, sitemap, robots, manifest, JSON-LD, static project pages, security headers, honeypot and in-memory contact rate limit, skip link, reduced-motion support, URL-driven category filtering, and keyboard command search.
+Per-route metadata/canonicals, Open Graph, sitemap, robots, manifest, JSON-LD, static case-study pages, security headers, honeypot and in-memory contact rate limit, skip link, reduced-motion support, and keyboard command search.
 
 ## Owner TODOs
 

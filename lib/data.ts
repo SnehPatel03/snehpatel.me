@@ -14,13 +14,12 @@ export type Project = {
   /** Optional real screenshot in /public (e.g. "/projects/opal.png"). Replaces the built-in mockup. */
   screenshot?: string;
   screenshotMobile?: string;
-  /** Owner confirmation needed before adding LangGraph to WhisperPDF. */
-  todo?: string[];
 };
 
 const gh = "https://github.com/SnehPatel03";
+const projectOrder = ["opal", "whisperpdf", "quizsprint", "gurukul", "dropee", "watchwise", "bytebudget"];
 
-export const projects: Project[] = [
+export const projects: Project[] = ([
   {
     slug: "gurukul",
     name: "Gurukul",
@@ -174,15 +173,19 @@ export const projects: Project[] = [
   {
     slug: "watchwise",
     name: "WatchWise",
-    tagline: "AI-driven movie suggestions with posters and ratings.",
+    tagline: "Movie picks, tuned to your mood.",
     period: "Personal project",
     category: "AI · Recommendations",
     summary:
-      "WatchWise presents AI-driven movie suggestions with posters, ratings and details.",
-    role: "TODO: confirm role and implementation details",
-    highlights: ["AI-driven movie suggestions with posters, ratings and details."],
-    stack: ["TODO: confirm technology stack"],
-    todo: ["Confirm project details, role, date and stack before expanding this case study."],
+      "A movie discovery app that turns a viewer’s mood, genre preferences, language and notes into recommendations, then enriches each pick with film details.",
+    role: "Full stack — React client, Express API and AI recommendation flow",
+    highlights: [
+      "Collects a viewer’s mood, up to three genres, preferred language and optional notes.",
+      "Uses Google Gemini to generate movie titles and release years from the viewer’s preferences.",
+      "Looks up movie posters, ratings, release dates and plot details through OMDb.",
+      "Built as a React and Vite client backed by a Node.js and Express service.",
+    ],
+    stack: ["React", "Vite", "React Router", "Node.js", "Express.js", "Google Gemini", "OMDb", "Axios", "Tailwind CSS"],
     live: "https://watchwise-hq.onrender.com/",
     screenshot: "/projects/watchwise.webp",
     screenshotMobile: "/projects/watchwise-mobile.webp",
@@ -192,7 +195,7 @@ export const projects: Project[] = [
   {
     slug: "bytebudget",
     name: "ByteBudget",
-    tagline: "A MERN app for tracking income, expenses and budgets.",
+    tagline: "A clearer view of where your money goes.",
     period: "Personal project",
     category: "Finance · Full stack",
     summary:
@@ -204,14 +207,14 @@ export const projects: Project[] = [
       "Charts for reviewing personal finance activity.",
       "Responsive interface backed by a MERN application stack.",
     ],
-    stack: ["MongoDB", "Express.js", "React", "Node.js", "JavaScript"],
+    stack: ["MongoDB", "Express.js", "React", "Node.js", "JavaScript", "Recharts", "React Router", "Tailwind CSS"],
     live: "https://expense-tracker-frontend-bmpg.onrender.com",
     screenshot: "/projects/bytebudget.webp",
     screenshotMobile: "/projects/bytebudget-mobile.webp",
     repos: [{ label: "Source", href: `${gh}/ByteBudget` }],
     featured: false,
   },
-];
+]).sort((a, b) => projectOrder.indexOf(a.slug) - projectOrder.indexOf(b.slug));
 
 export const getProject = (slug: string) =>
   projects.find((p) => p.slug === slug);
@@ -299,8 +302,7 @@ export const engineeringNotes = [
   { project: "QuizSprint", title: "Make round progression explicit", body: "The quiz flow automates qualification and elimination across three rounds, with instant results and a final winner." },
 ];
 
-// TODO: Add resume PDF path and confirm WatchWise project details with the owner.
-export const ownerTodos = ["Confirm WatchWise details", "Confirm whether WhisperPDF uses LangGraph", "Choose the production domain", "Add resume PDF"];
+export const ownerTodos = ["Confirm whether WhisperPDF uses LangGraph", "Choose the production domain", "Add resume PDF"];
 
 export const marquee = [
   "Next.js",

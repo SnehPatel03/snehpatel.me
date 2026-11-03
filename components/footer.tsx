@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { ISTClock } from "@/components/ist-clock";
+import { Reveal } from "@/components/reveal";
+import { marquee } from "@/lib/data";
 
 export function Footer() {
   return (
     <footer id="footer" className="site-footer mt-20 border-t border-line">
       <div className="mx-auto max-w-7xl px-5 pb-10 pt-16 sm:px-10 sm:pt-24">
-        <div className="footer-invitation grid gap-10 border-b border-line pb-14 lg:grid-cols-12 lg:items-end lg:pb-20">
+        <Reveal className="footer-invitation grid gap-10 border-b border-line pb-14 lg:grid-cols-12 lg:items-end lg:pb-20">
           <div className="lg:col-span-8">
             <p className="label mb-6 flex items-center gap-3"><span className="size-2 rounded-full bg-accent" />Available for internships &amp; full-time roles</p>
             <h2 className="display-type max-w-5xl text-[clamp(3rem,8vw,7rem)] font-semibold leading-[.88] tracking-[-.075em]">
@@ -20,9 +22,30 @@ export function Footer() {
             <p className="max-w-xs text-sm leading-relaxed text-mute">Have an idea, a product to ship, or a team looking for a developer? Tell me what you&apos;re working on.</p>
             <a data-cursor="Send" href={`mailto:${site.email}`} className="mt-5 inline-flex min-h-12 items-center rounded-full bg-fg px-6 text-sm font-semibold text-bg transition hover:-translate-y-0.5 hover:bg-accent">Start a conversation <span className="ml-4">↗</span></a>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="grid gap-10 py-9 sm:grid-cols-2 lg:grid-cols-12 lg:items-start">
+        <Reveal className="footer-stack-showcase border-b border-line py-8 sm:py-10">
+          <div className="mb-5 flex items-end justify-between gap-4">
+            <div>
+              <p className="label">The tools behind the work</p>
+              <h3 className="display-type mt-2 text-2xl font-medium tracking-[-.045em] sm:text-3xl">A stack that ships.</h3>
+            </div>
+            <span className="label hidden sm:block">Selected technologies · 01—12</span>
+          </div>
+          <div className="footer-stack-marquee" aria-label={`Technologies: ${marquee.join(", ")}`}>
+            <div className="footer-stack-track" aria-hidden="true">
+              {[...marquee, ...marquee].map((technology, index) => (
+                <span className="footer-stack-chip" key={`${technology}-${index}`}>
+                  <span className="footer-stack-index">{String((index % marquee.length) + 1).padStart(2, "0")}</span>
+                  {technology}
+                  <span className="footer-stack-mark" aria-hidden="true">✳</span>
+                </span>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal className="grid gap-10 py-9 sm:grid-cols-2 lg:grid-cols-12 lg:items-start">
           <div className="lg:col-span-5">
             <Link href="/#top" className="display-type text-2xl font-bold uppercase tracking-[-.06em]">Sneh Patel<span className="text-accent">.</span></Link>
             <p className="mt-2 text-sm text-mute">Full stack developer · Surat, India</p>
@@ -32,7 +55,6 @@ export function Footer() {
               <li className="label mb-3">Explore</li>
               <li><Link href="/#about" className="footer-link">About</Link></li>
               <li><Link href="/#work" className="footer-link">Selected work</Link></li>
-              <li><Link href="/projects" className="footer-link">Project archive</Link></li>
               <li><Link href="/resume" className="footer-link">Resume</Link></li>
             </ul>
             <ul className="space-y-2.5">
@@ -47,7 +69,7 @@ export function Footer() {
             <p className="display-type mt-2 text-3xl font-medium tracking-tight"><ISTClock /></p>
             <a href="#top" className="label mt-6 inline-flex min-h-10 items-center gap-3 hover:text-fg">Back to top <span className="text-accent">↑</span></a>
           </div>
-        </div>
+        </Reveal>
 
         <div className="flex flex-col justify-between gap-2 border-t border-line pt-5 text-xs text-mute sm:flex-row">
           <p>© {new Date().getFullYear()} Sneh Patel. Built with care.</p>

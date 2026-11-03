@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { projects } from "@/lib/data";
 import { site } from "@/lib/site";
 
-const base = [{ label: "Home", href: "/" }, { label: "About", href: "/about" }, { label: "Projects", href: "/projects" }, { label: "Contact", href: "/#contact" }, { label: "Resume", href: "/resume" }];
+const base = [{ label: "Home", href: "/" }, { label: "About", href: "/about" }, { label: "Work", href: "/#work" }, { label: "Contact", href: "/#contact" }, { label: "Resume", href: "/resume" }];
 
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
