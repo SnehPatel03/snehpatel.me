@@ -15,11 +15,22 @@ import {
 
 const wrap = "mx-auto w-full max-w-7xl px-5 sm:px-10";
 
-export function SectionHead({ index, label, title }: { index: string; label: string; title: React.ReactNode }) {
+export function SectionHead({
+  index,
+  label,
+  title,
+  level = "h2",
+}: {
+  index: string;
+  label: string;
+  title: React.ReactNode;
+  level?: "h1" | "h2";
+}) {
+  const Heading = level;
   return (
     <Reveal className="mb-14">
       <p className="label mb-5 flex items-center gap-3"><span className="text-accent">{index.padStart(2, "0")}</span><span className="h-px w-8 bg-line" />{label}</p>
-      <h2 className="display-type max-w-5xl text-4xl font-bold leading-[0.98] tracking-[-0.065em] sm:text-6xl lg:text-7xl"><TextReveal>{title}</TextReveal></h2>
+      <Heading className="display-type max-w-5xl text-4xl font-bold leading-[0.98] tracking-[-0.065em] sm:text-6xl lg:text-7xl"><TextReveal>{title}</TextReveal></Heading>
     </Reveal>
   );
 }
@@ -28,7 +39,7 @@ export function Hero() {
   return (
     <section id="top" data-reveal className="relative flex min-h-[calc(100svh-4.5rem)] flex-col overflow-hidden px-5 pb-5 pt-28 sm:px-10 sm:pb-7 sm:pt-32">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 border-b border-line/80 pb-4">
-        <p className="label flex items-center gap-3"><span className="size-2 rounded-full bg-accent shadow-[0_0_16px_rgba(208,195,174,.6)]" aria-hidden="true" />Available for internships &amp; full-time roles</p>
+        <p className="label flex items-center gap-3"><span className="size-2 rounded-full bg-emerald-600 shadow-[0_0_16px_rgba(208,195,174,.6)]" aria-hidden="true" />Available for internships &amp; full-time roles</p>
         <p className="label hidden text-right sm:block">{site.location}</p>
       </div>
       <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center py-14 sm:py-20">
@@ -79,15 +90,19 @@ export function Marquee() {
   );
 }
 
-export function About() {
+export function About({ headingLevel = "h2" }: { headingLevel?: "h1" | "h2" }) {
   const buildSteps = ["Understand", "Model", "Build", "Refine"];
   const focusAreas = ["AI & retrieval", "Real-time products", "Web + mobile", "Product craft"];
+  const AboutIntroHeading = headingLevel === "h1" ? "h2" : "h3";
   return (
     <section id="about" className={`${wrap} py-28`}>
       <SectionHead
         index="01"
         label="About"
-        title={<>A little about <span className="font-sans font-semibold text-accent">how I work.</span></>}
+        level={headingLevel}
+        title={headingLevel === "h1"
+          ? <>About <span className="font-sans font-semibold text-accent">Sneh Patel.</span></>
+          : <>A little about <span className="font-sans font-semibold text-accent">how I work.</span></>}
       />
       <div className="about-bento grid auto-rows-[minmax(10rem,auto)] gap-3 sm:grid-cols-2 lg:grid-cols-12">
         <Reveal className="bento-tile about-card about-card-intro flex flex-col justify-between p-6 sm:col-span-2 lg:col-span-7 lg:row-span-2 lg:p-9">
@@ -96,16 +111,19 @@ export function About() {
             <span className="about-coordinate label hidden sm:block">BUILD WITH INTENT ↘</span>
           </div>
           <div className="relative z-10 mt-12 max-w-2xl">
-            <h3 className="display-type max-w-[14ch] text-4xl font-bold leading-[.92] tracking-[-.075em] sm:text-5xl lg:text-6xl">
+            <AboutIntroHeading className="display-type max-w-[14ch] text-4xl font-bold leading-[.92] tracking-[-.075em] sm:text-5xl lg:text-6xl">
               Make the complex feel <span className="font-sans font-semibold text-accent">clear.</span>
-            </h3>
+            </AboutIntroHeading>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-mute sm:text-lg">
-              I&apos;m a full-stack developer and Computer Engineering student at GTU. I enjoy the whole product loop: understanding a problem, shaping its data, building the interface, and refining the details people use every day.
+              I&apos;m a full-stack developer based in Surat, India, and a Computer Engineering student at GTU. I enjoy the whole product loop: understanding a problem, shaping its data, building the interface, and refining the details people use every day.
             </p>
           </div>
           <div className="relative z-10 mt-10 flex flex-wrap items-end justify-between gap-5 border-t border-line/80 pt-5">
             <p className="label max-w-xs leading-relaxed">Engineering first<br />Product always</p>
-            <Link href="/#work" className="about-card-link label inline-flex min-h-10 items-center gap-3 text-fg">Explore selected work <span className="text-accent">↗</span></Link>
+            <div className="flex flex-wrap gap-x-5 gap-y-2">
+              <Link href="/#work" className="about-card-link label inline-flex min-h-10 items-center gap-3 text-fg">Explore selected work <span className="text-accent">↗</span></Link>
+              <a href="/resume.pdf" download="Sneh-Patel-Resume.pdf" data-analytics-event="resume_download" className="about-card-link label inline-flex min-h-10 items-center gap-3 text-fg">Download resume <span className="text-accent">↓</span></a>
+            </div>
           </div>
           <span className="about-intro-mark" aria-hidden="true">01</span>
         </Reveal>
@@ -185,6 +203,11 @@ export function Work() {
     <section id="work" className="project-work-section mx-auto w-full px-5 py-24 sm:px-8 sm:py-32">
       <SectionHead index="03" label="Selected work" title={<>Products, not just <span className="font-sans font-semibold text-accent">projects.</span></>} />
       <ProjectShowcase />
+      <div className="mx-auto mt-8 max-w-7xl text-right">
+        <Link href="/projects" className="label inline-flex min-h-11 items-center gap-2 text-fg transition-colors hover:text-accent">
+          Browse all projects <span aria-hidden="true">↗</span>
+        </Link>
+      </div>
     </section>
   );
 }
@@ -258,22 +281,31 @@ export function StackSection() {
   );
 }
 
-export function Contact() {
+export function Contact({ headingLevel = "h2" }: { headingLevel?: "h1" | "h2" }) {
   return (
     <section id="contact" className={`${wrap} py-28`}>
-      <SectionHead index="07" label="Contact" title={<>Have a role or idea? <span className="font-sans font-semibold text-accent">Let&apos;s talk.</span></>} />
+      <SectionHead
+        index="07"
+        label="Contact"
+        level={headingLevel}
+        title={headingLevel === "h1"
+          ? <>Contact <span className="font-sans font-semibold text-accent">Sneh Patel.</span></>
+          : <>Have a role or idea? <span className="font-sans font-semibold text-accent">Let&apos;s talk.</span></>}
+      />
       <div className="grid gap-14 lg:grid-cols-2">
         <Reveal>
           <p className="max-w-md text-lg text-mute">
-            Open to internships, full-time roles and collaborations. The quickest way to reach me is email.
+            Sneh Patel is a full stack developer in Surat, India, open to AI Engineer and full-stack roles. For opportunities or collaborations, the quickest way to reach me is email.
           </p>
-          <a href={`mailto:${site.email}`} className="mt-6 inline-block break-all text-2xl font-semibold tracking-tight hover:text-accent sm:text-3xl">
-            {site.email}
-          </a>
-          <div className="mt-8 flex gap-6 text-sm">
-            <a href={site.github} target="_blank" rel="noopener noreferrer" className="hover:text-accent">GitHub ↗</a>
-            <a href={site.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-accent">LinkedIn ↗</a>
-          </div>
+          <address className="not-italic">
+            <a href={`mailto:${site.email}`} data-analytics-event="contact_click" className="mt-6 inline-block break-all text-2xl font-semibold tracking-tight hover:text-accent sm:text-3xl">
+              {site.email}
+            </a>
+            <div className="mt-8 flex gap-6 text-sm">
+              <a href={site.github} target="_blank" rel="noopener noreferrer" className="hover:text-accent">GitHub ↗</a>
+              <a href={site.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-accent">LinkedIn ↗</a>
+            </div>
+          </address>
         </Reveal>
         <Reveal delay={0.1}>
           <ContactForm />

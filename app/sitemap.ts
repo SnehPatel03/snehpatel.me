@@ -3,16 +3,16 @@ import { site } from "@/lib/site";
 import { projects } from "@/lib/data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  const lastModified = new Date(`${site.contentUpdatedAt}T00:00:00.000Z`);
   return [
-    { url: site.url, lastModified: now, changeFrequency: "monthly", priority: 1 },
-    { url: `${site.url}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${site.url}/resume`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: site.url, lastModified },
+    { url: `${site.url}/about`, lastModified },
+    { url: `${site.url}/projects`, lastModified },
+    { url: `${site.url}/contact`, lastModified },
+    { url: `${site.url}/resume`, lastModified },
     ...projects.map((p) => ({
       url: `${site.url}/projects/${p.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
+      lastModified,
     })),
   ];
 }

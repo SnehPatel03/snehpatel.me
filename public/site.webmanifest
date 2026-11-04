@@ -1,0 +1,16 @@
+{
+  "name": "Sneh Patel | Full Stack Developer",
+  "short_name": "Sneh Patel",
+  "description": "Full stack developer in Surat, India, building AI products and modern web applications.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080809",
+  "theme_color": "#121210",
+  "icons": [
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

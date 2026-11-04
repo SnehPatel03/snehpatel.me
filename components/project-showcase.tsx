@@ -56,7 +56,7 @@ export function ProjectShowcase() {
         >
           <div className="project-showcase-grid">
             <div className="project-showcase-visual">
-              <ProjectMockup project={active} priority={activeIndex === 0} presentation="showcase" />
+              <ProjectMockup project={active} presentation="showcase" />
             </div>
 
             <div className="project-showcase-copy">
@@ -75,7 +75,7 @@ export function ProjectShowcase() {
               </ul>
 
               <div className="project-showcase-actions mt-7 flex flex-col items-start gap-4">
-                <Link href={`/projects/${active.slug}`} className="project-case-link label inline-flex min-h-11 items-center gap-2 border-b border-accent text-fg transition hover:text-accent">
+                <Link href={`/projects/${active.slug}`} data-analytics-event="project_link_click" data-project-name={active.name} data-project-link="case-study" className="project-case-link label inline-flex min-h-11 items-center gap-2 border-b border-accent text-fg transition hover:text-accent">
                   Explore case study <span aria-hidden="true">↗</span>
                 </Link>
                 <ProjectLinks project={active} />

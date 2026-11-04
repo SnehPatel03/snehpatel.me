@@ -69,7 +69,7 @@ export function Nav() {
       className={`site-nav fixed z-50 flex items-center justify-between px-5 py-2 sm:px-7${scrolled ? " site-nav--scrolled" : ""}`}
     >
       <Link href="/" className="nav-brand" aria-label="Sneh Patel — home">
-        <Image src="/brand-mark.svg" alt="" width={34} height={34} className="nav-brand-mark" priority />
+        <Image src="/brand-mark.svg" alt="" width={34} height={34} className="nav-brand-mark" />
       </Link>
       <nav aria-label="Primary" className="site-nav-links">
         {links.map((link) => (
@@ -78,6 +78,9 @@ export function Nav() {
             href={link.page ? "/resume" : pathname === "/" ? `#${link.href}` : `/#${link.href}`}
             className="nav-link label"
             aria-current={link.page && pathname === "/resume" ? "page" : undefined}
+            data-analytics-event={
+              link.href === "resume" ? "resume_click" : link.href === "contact" ? "contact_click" : undefined
+            }
           >
             {link.label}
           </a>

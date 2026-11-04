@@ -1,14 +1,12 @@
 export const site = {
   name: "Sneh Patel",
-  title: "Sneh Patel — Full Stack Developer",
+  title: "Sneh Patel | Full Stack Developer in Surat, Gujarat",
   tagline: "Full stack developer, shipping AI-powered products.",
   heroIntro: "I build conversational AI tools, real-time applications and secure full-stack platforms.",
   description:
-    "Full stack developer skilled in React.js, Next.js, TypeScript, Express.js, PostgreSQL and LangChain-based AI applications. Builds conversational AI tools, real-time applications and secure full-stack platforms with authentication, database optimisation and modern UI.",
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://snehpatel.dev").replace(
-    /\/$/,
-    "",
-  ),
+    "Sneh Patel is a full stack developer in Surat, India, building AI products and web platforms with React, Next.js, TypeScript and PostgreSQL. Explore his work.",
+  url: "https://snehpatel.dev",
+  contentUpdatedAt: "2026-11-04",
   email: "snehpatel1233@gmail.com",
   github: "https://github.com/SnehPatel03",
   linkedin: "https://www.linkedin.com/in/sneh-patel-ab6302213",

@@ -210,12 +210,12 @@ const mocks: Record<string, () => React.JSX.Element> = {
 };
 
 /** Project preview: a real screenshot if `project.screenshot` is set, otherwise the built-in UI mockup. */
-export function ProjectMockup({ project, priority = false, presentation = "browser" }: { project: Project; priority?: boolean; presentation?: "browser" | "showcase" }) {
+export function ProjectMockup({ project, presentation = "browser" }: { project: Project; presentation?: "browser" | "showcase" }) {
   const Mock = mocks[project.slug];
   const host = project.live?.replace(/^https?:\/\//, "").replace(/\/$/, "") ?? `${project.name} · Web + Mobile`;
   const hasMobilePreview = Boolean(project.screenshotMobile);
   const preview = project.screenshot ? (
-    <Image src={project.screenshot} alt="" width={1600} height={1000} priority={priority} className="h-full w-full object-cover object-top" />
+    <Image src={project.screenshot} alt={`${project.name} desktop interface preview`} width={1600} height={1000} className="h-full w-full object-cover object-top" />
   ) : Mock ? <Mock /> : null;
   return (
     <div role="img" aria-label={`${project.name} app preview`}>
@@ -230,14 +230,14 @@ export function ProjectMockup({ project, priority = false, presentation = "brows
             </div>
             {project.screenshotMobile && <div className="project-showcase-mobile">
               <div className="project-device-frame relative aspect-[9/19] overflow-hidden rounded-[1.25rem] border border-white/15 bg-[#11110f] p-1.5 shadow-2xl">
-                <Image src={project.screenshotMobile} alt="" width={390} height={844} className="h-full w-full rounded-[.9rem] object-cover object-top" />
+                <Image src={project.screenshotMobile} alt={`${project.name} mobile interface preview`} width={390} height={844} className="h-full w-full rounded-[.9rem] object-cover object-top" />
                 <span className="absolute left-1/2 top-2 h-1 w-8 -translate-x-1/2 rounded-full bg-black/65" aria-hidden="true" />
               </div>
               <span className="project-view-label">MOBILE VIEW</span>
             </div>}
             {project.screenshotMobile && <div className="project-showcase-mobile-small mx-auto w-[min(68%,16rem)]">
               <div className="project-device-frame relative aspect-[9/19] overflow-hidden rounded-[1.55rem] border border-white/15 bg-[#11110f] p-1.5 shadow-2xl">
-                <Image src={project.screenshotMobile} alt="" width={390} height={844} className="h-full w-full rounded-[1.2rem] object-cover object-top" />
+                <Image src={project.screenshotMobile} alt={`${project.name} mobile interface preview`} width={390} height={844} className="h-full w-full rounded-[1.2rem] object-cover object-top" />
                 <span className="absolute left-1/2 top-2.5 h-1 w-10 -translate-x-1/2 rounded-full bg-black/65" aria-hidden="true" />
               </div>
               <span className="project-view-label">MOBILE EXPERIENCE</span>

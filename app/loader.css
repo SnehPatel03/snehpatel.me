@@ -48,16 +48,11 @@
   margin-bottom: 1.25rem;
 }
 
-.site-loader__monogram {
-  display: grid;
-  width: 2rem;
-  height: 2rem;
-  place-items: center;
-  border: 1px solid rgba(17,17,16,.22);
-  border-radius: 50%;
-  color: #111110;
-  font: 700 .7rem/1 var(--font-bricolage), ui-sans-serif, sans-serif;
-  letter-spacing: -.08em;
+.site-loader__mark {
+  display: block;
+  width: 2.5rem;
+  height: 2.5rem;
+  fill: #111110;
 }
 
 .site-loader__count {
@@ -83,37 +78,8 @@
   transform-origin: left center;
 }
 
-html[data-loader="loading"] #main,
-html[data-loader="loading"] #footer {
-  opacity: 0;
-  filter: blur(12px);
-  transform: translate3d(0, 1.5rem, 0) scale(.99);
-  will-change: opacity, filter, transform;
-}
-
-html[data-loader="revealing"] #main,
-html[data-loader="revealing"] #footer {
-  opacity: 1;
-  filter: blur(0);
-  transform: translate3d(0, 0, 0) scale(1);
-  transition:
-    opacity 1.4s cubic-bezier(.5, 1, .89, 1),
-    filter 1.7s cubic-bezier(.5, 1, .89, 1),
-    transform 1.9s cubic-bezier(.5, 1, .89, 1);
-}
-
-html[data-loader="done"] #main,
-html[data-loader="done"] #footer {
-  opacity: 1;
-  filter: none;
-  transform: none;
-  will-change: auto;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .site-loader__panel,
-  html[data-loader] #main,
-  html[data-loader] #footer {
+  .site-loader__panel {
     animation: none !important;
     filter: none !important;
     transform: none !important;

@@ -1,12 +1,48 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { projects, getProject } from "@/lib/data";
 import { site } from "@/lib/site";
 import { ProjectLinks } from "@/components/project";
 import { Reveal } from "@/components/reveal";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 type Params = { slug: string };
+
+const projectSeo: Record<string, { title: string; description: string }> = {
+  gurukul: {
+    title: "Gurukul: Web & Mobile School Platform",
+    description: "Explore Gurukul, Sneh Patel’s web and mobile school platform built with Next.js, PostgreSQL and Expo. See teacher and student workflows, stack and source.",
+  },
+  opal: {
+    title: "OPAL: AI Screen Recording Workspace Project",
+    description: "Explore OPAL, a screen-recording and AI video workspace by Sneh Patel. See how the Electron recorder, Next.js app, real-time sync and billing fit together.",
+  },
+  whisperpdf: {
+    title: "WhisperPDF: LangChain PDF Chatbot Project",
+    description: "Explore WhisperPDF, Sneh Patel’s LangChain PDF chatbot with RAG, page-level citations and queued ingestion. Review its Qdrant stack, live app and source.",
+  },
+  quizsprint: {
+    title: "QuizSprint: Real-Time Quiz App Project",
+    description: "Explore QuizSprint, Sneh Patel’s quiz app with real-time play, three-round qualification, instant results and admin controls. See technologies and source code.",
+  },
+  dropee: {
+    title: "Dropee: Full-Stack Cloud Storage Project",
+    description: "Explore Dropee, Sneh Patel’s Dropbox-style cloud storage app with folders, previews and recovery workflows. Review its Next.js stack, live site and source code.",
+  },
+  watchwise: {
+    title: "WatchWise: AI Movie Recommendation App",
+    description: "Explore WatchWise, Sneh Patel’s AI movie recommender built with React, Express, Gemini and OMDb. See the recommendation flow, stack, live demo and source.",
+  },
+  bytebudget: {
+    title: "ByteBudget: Expense Tracker App Project",
+    description: "Explore ByteBudget, Sneh Patel’s expense tracker for income, spending, goals and limit alerts. Review its MERN stack, project details, live app and source code.",
+  },
+};
+
+const caseStudyUpdatedAt = site.contentUpdatedAt;
+const programmingLanguages = new Set(["C", "C++", "JavaScript", "TypeScript", "Python", "SQL"]);
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -16,15 +52,21 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return {};
+  const seo = projectSeo[project.slug];
   return {
-    title: `${project.name} — ${project.tagline}`,
-    description: project.summary,
+    title: seo.title,
+    description: seo.description,
     alternates: { canonical: `/projects/${project.slug}` },
     openGraph: {
-      title: `${project.name} — ${project.tagline}`,
-      description: project.summary,
+      title: seo.title,
+      description: seo.description,
       url: `${site.url}/projects/${project.slug}`,
       type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.title,
+      description: seo.description,
     },
   };
 }
@@ -39,17 +81,14 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": "SoftwareSourceCode",
     name: project.name,
     description: project.summary,
-    applicationCategory: "WebApplication",
-    operatingSystem:
-      project.slug === "opal"
-        ? "Web, Windows, macOS, Linux"
-        : project.slug === "gurukul"
-          ? "Web, Android, iOS"
-          : "Web",
-    ...(project.live ? { url: project.live } : {}),
+    url: `${site.url}/projects/${project.slug}`,
+    codeRepository: project.repos.map((repository) => repository.href),
+    programmingLanguage: project.stack.filter((technology) => programmingLanguages.has(technology)),
+    ...(project.screenshot ? { image: `${site.url}${project.screenshot}` } : {}),
+    dateModified: caseStudyUpdatedAt,
     author: { "@type": "Person", name: site.name, url: site.url },
   };
 
@@ -61,10 +100,14 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
       />
 
       <div className="case-study-content mx-auto w-full max-w-[96rem] px-5 sm:px-10 lg:px-12">
-      <nav aria-label="Breadcrumb" className="case-study-breadcrumb label mb-12 flex items-center justify-between gap-4">
-        <Link href="/#work" className="transition hover:text-fg">← Selected work</Link>
-        <span>{String(index + 1).padStart(2, "0")} <span className="text-accent">/</span> {String(projects.length).padStart(2, "0")}</span>
-      </nav>
+      <div className="mb-12 flex items-center justify-between gap-4">
+        <Breadcrumbs items={[
+          { name: "Home", href: "/" },
+          { name: "Projects", href: "/projects" },
+          { name: project.name, href: `/projects/${project.slug}` },
+        ]} />
+        <span className="label">{String(index + 1).padStart(2, "0")} <span className="text-accent">/</span> {String(projects.length).padStart(2, "0")}</span>
+      </div>
 
       <Reveal className="case-study-hero">
         <p className="label mb-5">{project.category}<span className="mx-2 text-accent">/</span>{project.period}</p>
@@ -77,7 +120,26 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             <ProjectLinks project={project} />
           </div>
         </div>
+        <p className="label mt-6">Case study updated <time dateTime={caseStudyUpdatedAt}>{new Intl.DateTimeFormat("en-IN", { dateStyle: "long", timeZone: "UTC" }).format(new Date(`${caseStudyUpdatedAt}T00:00:00Z`))}</time></p>
       </Reveal>
+
+      {project.screenshot && (
+        <Reveal className="case-study-media mt-12">
+          <figure>
+            <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-line bg-surface">
+              <Image
+                src={project.screenshot}
+                alt={`${project.name} interface for ${project.tagline.toLowerCase()}`}
+                fill
+                sizes="(max-width: 1024px) 100vw, 88vw"
+                className="object-cover"
+                priority
+              />
+            </div>
+            <figcaption className="label mt-3">{project.name} application screenshot</figcaption>
+          </figure>
+        </Reveal>
+      )}
 
       <Reveal className="case-study-overview mt-20 grid gap-10 border-y border-line py-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16 lg:py-14">
         <div>

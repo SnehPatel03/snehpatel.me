@@ -14,7 +14,7 @@ export function Footer() {
             <h2 className="display-type max-w-5xl text-[clamp(3rem,6.4vw,6.5rem)] font-semibold leading-[.9] tracking-[-.075em]">
               From “what if?”<br />to “it works<span className="font-semibold text-accent">.</span>”
             </h2>
-            <a data-cursor="Send" href={`mailto:${site.email}`} className="footer-email group mt-8 inline-flex items-center gap-4 text-base text-mute transition hover:text-fg sm:mt-10 sm:text-lg">
+            <a data-cursor="Send" data-analytics-event="contact_click" href={`mailto:${site.email}`} className="footer-email group mt-8 inline-flex items-center gap-4 text-base text-mute transition hover:text-fg sm:mt-10 sm:text-lg">
               {site.email}<span className="footer-email-arrow grid size-10 place-items-center rounded-full border border-line text-fg transition group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:border-accent group-hover:text-accent">↗</span>
             </a>
           </div>
@@ -24,7 +24,7 @@ export function Footer() {
             </div>
             <div className="relative z-10 mt-10 sm:mt-14">
               <p className="max-w-sm text-base leading-relaxed text-mute sm:text-lg">Have a product to build, a role to discuss, or an idea to explore? I&apos;d love to hear about it.</p>
-              <a data-cursor="Send" href={`mailto:${site.email}`} className="fill-hover footer-contact-button group mt-7 inline-flex min-h-12 items-center gap-5 rounded-full px-6 text-sm font-semibold transition hover:-translate-y-0.5">Start a conversation <span className="footer-contact-arrow">↗</span></a>
+              <a data-cursor="Send" data-analytics-event="contact_click" href={`mailto:${site.email}`} className="fill-hover footer-contact-button group mt-7 inline-flex min-h-12 items-center gap-5 rounded-full px-6 text-sm font-semibold transition hover:-translate-y-0.5">Start a conversation <span className="footer-contact-arrow">↗</span></a>
             </div>
           </div>
         </Reveal>
@@ -56,15 +56,16 @@ export function Footer() {
           <nav aria-label="Footer navigation" className="grid grid-cols-2 gap-8 text-sm sm:col-span-1 lg:col-span-3">
             <ul className="space-y-2.5">
               <li className="label mb-3">Explore</li>
-              <li><Link href="/#about" className="footer-link">About</Link></li>
-              <li><Link href="/#work" className="footer-link">Selected work</Link></li>
-              <li><Link href="/resume" className="footer-link">Resume</Link></li>
+              <li><Link href="/about" className="footer-link">About Sneh Patel</Link></li>
+              <li><Link href="/projects" className="footer-link">Full stack and AI projects</Link></li>
+              <li><Link href="/contact" className="footer-link">Contact Sneh Patel</Link></li>
+              <li><Link href="/resume" className="footer-link">Sneh Patel resume</Link></li>
             </ul>
             <ul className="space-y-2.5">
               <li className="label mb-3">Elsewhere</li>
               <li><a href={site.github} target="_blank" rel="noopener noreferrer" className="footer-link">GitHub ↗</a></li>
               <li><a href={site.linkedin} target="_blank" rel="noopener noreferrer" className="footer-link">LinkedIn ↗</a></li>
-              <li><a href={`mailto:${site.email}`} className="footer-link">Email ↗</a></li>
+              <li><a href={`mailto:${site.email}`} data-analytics-event="contact_click" className="footer-link">Email ↗</a></li>
             </ul>
           </nav>
           <div className="lg:col-span-4 lg:justify-self-end lg:text-right">

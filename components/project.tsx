@@ -7,9 +7,12 @@ export function ProjectLinks({ project }: { project: Project }) {
         href={project.live}
         target="_blank"
         rel="noopener noreferrer"
+        data-analytics-event="project_link_click"
+        data-project-name={project.name}
+        data-project-link="live"
         className="project-open-link inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-fg px-5 py-2.5 font-medium text-bg transition hover:-translate-y-0.5 hover:bg-fg/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-fg"
       >
-        <span>Open live project</span><span aria-hidden="true">↗</span>
+        <span>Open {project.name} live project</span><span aria-hidden="true">↗</span>
       </a>}
       {project.repos.map((r) => (
         <a
@@ -17,9 +20,12 @@ export function ProjectLinks({ project }: { project: Project }) {
           href={r.href}
           target="_blank"
           rel="noopener noreferrer"
+          data-analytics-event="project_link_click"
+          data-project-name={project.name}
+          data-project-link="source"
           className="fill-hover inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-line px-5 py-2.5 transition hover:-translate-y-0.5"
         >
-          {r.label} ↗
+          {project.name} · {r.label} ↗
         </a>
       ))}
     </div>

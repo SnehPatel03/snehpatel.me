@@ -3,22 +3,39 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 import { education, experience, stackGroups } from "@/lib/data";
 import { PrintButton } from "@/components/print-button";
+import { Breadcrumbs } from "@/components/breadcrumbs";
+
+const description =
+  "View and download Sneh Patel’s resume, with full stack developer experience, Computer Engineering education at GTU, technical skills and selected project work.";
 
 export const metadata: Metadata = {
-  title: "Resume",
-  description: "Resume of Sneh Patel, full stack developer from Surat, India.",
+  title: "Sneh Patel Resume: Full Stack Developer",
+  description,
   alternates: { canonical: "/resume" },
+  openGraph: {
+    type: "website",
+    url: `${site.url}/resume`,
+    title: "Sneh Patel Resume: Full Stack Developer",
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sneh Patel Resume: Full Stack Developer",
+    description,
+  },
 };
 
 export default function ResumePage() {
   return <article className="mx-auto max-w-4xl px-5 pb-28 pt-36 sm:px-10">
+    <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Resume", href: "/resume" }]} className="mb-8" />
     <div className="mb-10 flex flex-wrap items-center justify-between gap-4 print:hidden">
       <p className="label">Resume</p>
       <div className="flex flex-wrap gap-3">
         <a
           href="/resume.pdf"
           download="Sneh-Patel-Resume.pdf"
-          className="chip inline-flex min-h-11 items-center gap-2 bg-fg px-4 font-medium text-bg transition hover:-translate-y-0.5 hover:bg-fg/90"
+          data-analytics-event="resume_download"
+          className="fill-hover chip inline-flex min-h-11 items-center gap-2 bg-fg px-4 font-medium text-bg transition hover:-translate-y-0.5"
         >
           Download PDF <span aria-hidden="true">↓</span>
         </a>

@@ -119,7 +119,10 @@ export function Loader({ playOnNavigation = false }: { playOnNavigation?: boolea
       <motion.div className="site-loader__panel" style={{ scaleX, scaleY, opacity }}>
         <div className="site-loader__content">
           <div className="site-loader__identity">
-            <span className="site-loader__monogram">SP</span>
+            <svg className="site-loader__mark" viewBox="0 0 512 512" aria-hidden="true">
+              <path d="M64 308c0-112 91-203 203-203h181v92h-89c-57 0-103 46-103 103H64Z" />
+              <path d="M64 407h89c57 0 103-46 103-103h192c0 112-91 203-203 203H64v-100Z" />
+            </svg>
           </div>
           <motion.span className="site-loader__count" aria-hidden="true">{label}</motion.span>
           <div className="site-loader__progress" aria-hidden="true">

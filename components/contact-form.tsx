@@ -25,6 +25,7 @@ export function ContactForm() {
       if (!res.ok) throw new Error("failed");
       form.reset();
       setStatus("sent");
+      document.dispatchEvent(new Event("portfolio:contact-success"));
     } catch {
       setStatus("error");
     }
