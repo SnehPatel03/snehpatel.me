@@ -17,7 +17,7 @@ export function ProjectLinks({ project }: { project: Project }) {
           href={r.href}
           target="_blank"
           rel="noopener noreferrer"
-        className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-line px-5 py-2.5 transition hover:-translate-y-0.5 hover:border-fg hover:text-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-fg"
+          className="fill-hover inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-line px-5 py-2.5 transition hover:-translate-y-0.5"
         >
           {r.label} ↗
         </a>
@@ -25,4 +25,3 @@ export function ProjectLinks({ project }: { project: Project }) {
     </div>
   );
 }
-

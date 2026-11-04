@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef, useState, useSyncExternalStore } from "react";
-import { motion, useMotionValueEvent, useScroll } from "motion/react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
+import Image from "next/image";
 import { site } from "@/lib/site";
 
 const links = [
@@ -12,6 +13,7 @@ const links = [
   { href: "work", label: "Work" },
   { href: "stack", label: "Stack" },
   { href: "archive", label: "Archive" },
+  { href: "resume", label: "Resume", page: true },
   { href: "contact", label: "Contact" },
 ];
 
@@ -22,8 +24,9 @@ const getServerShortcutModifier = () => "Ctrl";
 
 export function Nav() {
   const pathname = usePathname();
-  const lastScrollY = useRef(0);
-  const [hidden, setHidden] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [loaderComplete, setLoaderComplete] = useState(false);
+  const reduceMotion = useReducedMotion();
   const shortcutModifier = useSyncExternalStore(
     subscribeToPlatform,
     getPlatformShortcutModifier,
@@ -32,27 +35,49 @@ export function Nav() {
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (current) => {
-    const delta = current - lastScrollY.current;
-    if (current > 120 && delta > 4) setHidden(true);
-    else if (delta < -3 || current < 80) setHidden(false);
-    lastScrollY.current = current;
+    setScrolled(current > 24);
   });
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setScrolled(window.scrollY > 24));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const syncLoaderState = () => {
+      if (root.dataset.loader === "done") setLoaderComplete(true);
+    };
+    const frame = requestAnimationFrame(syncLoaderState);
+    const observer = new MutationObserver(syncLoaderState);
+    observer.observe(root, { attributes: true, attributeFilter: ["data-loader"] });
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <motion.header
-      animate={{ y: hidden ? "-150%" : "0%" }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      className="site-nav fixed z-50 flex items-center justify-between px-5 py-2 sm:px-7"
+      initial={reduceMotion ? false : { y: "-130%", opacity: 0 }}
+      animate={{
+        y: reduceMotion || loaderComplete ? 0 : "-130%",
+        opacity: reduceMotion || loaderComplete ? 1 : 0,
+        scale: scrolled ? 0.985 : 1,
+      }}
+      transition={{ duration: reduceMotion ? 0 : 0.75, ease: [0.5, 0, 0.2, 1] }}
+      className={`site-nav fixed z-50 flex items-center justify-between px-5 py-2 sm:px-7${scrolled ? " site-nav--scrolled" : ""}`}
     >
       <Link href="/" className="nav-brand" aria-label="Sneh Patel — home">
-        <span className="nav-brand-mark">SP</span>
+        <Image src="/brand-mark.svg" alt="" width={34} height={34} className="nav-brand-mark" priority />
       </Link>
       <nav aria-label="Primary" className="site-nav-links">
         {links.map((link) => (
           <a
             key={link.href}
-            href={pathname === "/" ? `#${link.href}` : `/#${link.href}`}
+            href={link.page ? "/resume" : pathname === "/" ? `#${link.href}` : `/#${link.href}`}
             className="nav-link label"
+            aria-current={link.page && pathname === "/resume" ? "page" : undefined}
           >
             {link.label}
           </a>

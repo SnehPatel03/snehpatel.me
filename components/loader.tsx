@@ -1,93 +1,132 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import {
+  animate,
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+} from "motion/react";
 import { usePathname } from "next/navigation";
 
-export function Loader() {
-  const [visible, setVisible] = useState(false);
-  const [progress, setProgress] = useState(0);
+type Phase = "loading" | "revealing" | "done";
+
+const COUNT_DELAY = 0.35;
+const COUNT_DURATION = 1.35;
+const SHRINK_X = 0.9;
+const SHRINK_Y = 0.72;
+const REVEAL_OFFSET = 0.25;
+const REVEAL_SETTLE = 1.9;
+
+const EASE_OUT_QUAD = [0.5, 1, 0.89, 1] as const;
+const EASE_X = [0.5, 0, 0.2, 1] as const;
+const EASE_Y = [0.65, 0, 0.35, 1] as const;
+
+function setPhase(phase: Phase) {
+  document.documentElement.dataset.loader = phase;
+}
+
+export function Loader({ playOnNavigation = false }: { playOnNavigation?: boolean }) {
   const reducedMotion = useReducedMotion();
   const pathname = usePathname();
+  const runKey = playOnNavigation ? pathname : "initial";
+  const [visible, setVisible] = useState(true);
+  const [interactive, setInteractive] = useState(true);
+
+  const count = useMotionValue(0);
+  const label = useTransform(count, (value) => `${Math.round(value)}%`);
+  const progress = useTransform(count, (value) => value / 100);
+  const scaleX = useMotionValue(1);
+  const scaleY = useMotionValue(1);
+  const opacity = useMotionValue(1);
 
   useEffect(() => {
+    const root = document.documentElement;
+
     if (reducedMotion) {
-      const frame = requestAnimationFrame(() => setVisible(false));
-      return () => cancelAnimationFrame(frame);
+      setPhase("done");
+      return;
     }
 
-    const duration = 1320;
-    let frame = 0;
-    let hideTimer = 0;
-    const update = (now: number) => {
-      const ratio = Math.min((now - start) / duration, 1);
-      const accelerated = (Math.exp(3 * ratio) - 1) / (Math.exp(3) - 1);
-      setProgress(Math.round(accelerated * 100));
-      if (ratio < 1) {
-        frame = requestAnimationFrame(update);
-      } else {
-        hideTimer = window.setTimeout(() => setVisible(false), 220);
-      }
+    let cancelled = false;
+    let showFrame = 0;
+    const timers: number[] = [];
+    const running: { stop: () => void }[] = [];
+    const later = (callback: () => void, seconds: number) => {
+      timers.push(window.setTimeout(callback, seconds * 1000));
     };
-    let start = 0;
-    frame = requestAnimationFrame(() => {
-      setProgress(0);
+
+    count.set(0);
+    scaleX.set(1);
+    scaleY.set(1);
+    opacity.set(1);
+    showFrame = window.requestAnimationFrame(() => {
       setVisible(true);
-      start = performance.now();
-      frame = requestAnimationFrame(update);
+      setInteractive(true);
     });
+    setPhase("loading");
+
+    const previousOverflow = root.style.overflow;
+    root.style.overflow = "hidden";
+    window.scrollTo(0, 0);
+
+    const run = async () => {
+      const counter = animate(count, 100, {
+        delay: COUNT_DELAY,
+        duration: COUNT_DURATION,
+        ease: [...EASE_OUT_QUAD],
+      });
+      running.push(counter);
+      await counter;
+      if (cancelled) return;
+
+      setInteractive(false);
+      const x = animate(scaleX, 0, { duration: SHRINK_X, ease: [...EASE_X] });
+      const y = animate(scaleY, 0.004, { duration: SHRINK_Y, ease: [...EASE_Y] });
+      running.push(x, y);
+
+      later(() => setPhase("revealing"), REVEAL_OFFSET);
+      later(() => {
+        root.style.overflow = previousOverflow;
+        setPhase("done");
+      }, REVEAL_OFFSET + REVEAL_SETTLE);
+
+      await Promise.all([x, y]);
+      if (!cancelled) setVisible(false);
+    };
+
+    void run();
 
     return () => {
-      cancelAnimationFrame(frame);
-      window.clearTimeout(hideTimer);
+      cancelled = true;
+      window.cancelAnimationFrame(showFrame);
+      timers.forEach(window.clearTimeout);
+      running.forEach((animation) => animation.stop());
+      root.style.overflow = previousOverflow;
     };
-  }, [pathname, reducedMotion]);
+  }, [runKey, reducedMotion, count, scaleX, scaleY, opacity]);
+
+  if (reducedMotion || !visible) return null;
 
   return (
-    <AnimatePresence>
-      {visible && (
-        <motion.div
-          aria-label="Portfolio loading"
-          className="portfolio-loader fixed inset-0 z-[100] flex items-center justify-center"
-          key={pathname}
-          initial={{ opacity: 1 }}
-          exit={{ clipPath: "inset(0 0 100% 0 round 0px)", opacity: 0.98 }}
-          transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
-        >
-          <div className="loader-core">
-            <motion.span
-              className="loader-index label"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            >PORTFOLIO · 2026</motion.span>
-            <motion.span
-              className="loader-initials display-type"
-              initial={{ opacity: 0, y: 28, scale: 0.96, filter: "blur(10px)" }}
-              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-              transition={{ duration: 1, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-            >S<span className="loader-letter-gap">P</span><span className="text-accent">.</span></motion.span>
-            <motion.span
-              className="loader-owner label"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.36, ease: [0.22, 1, 0.36, 1] }}
-            >Sneh Patel · Full stack developer</motion.span>
+    <div
+      role="status"
+      aria-label="Loading portfolio"
+      className="site-loader"
+      style={{ pointerEvents: interactive ? "auto" : "none" }}
+    >
+      <motion.div className="site-loader__panel" style={{ scaleX, scaleY, opacity }}>
+        <div className="site-loader__content">
+          <div className="site-loader__identity">
+            <span className="site-loader__monogram">SP</span>
           </div>
-          <div
-            className="loader-progress"
-            role="progressbar"
-            aria-label="Loading portfolio"
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuenow={progress}
-          >
-            <span className="loader-progress-caption label">Preparing the experience</span>
-            <span className="loader-progress-bar" style={{ transform: `scaleX(${progress / 100})` }} />
-            <span className="loader-counter tabular-nums">{String(progress).padStart(2, "0")}<span className="loader-percent">%</span></span>
+          <motion.span className="site-loader__count" aria-hidden="true">{label}</motion.span>
+          <div className="site-loader__progress" aria-hidden="true">
+            <motion.span className="site-loader__progress-fill" style={{ scaleX: progress }} />
           </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        </div>
+      </motion.div>
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import "./loader.css";
 import { site } from "@/lib/site";
 import { Nav } from "@/components/nav";
 import { Loader } from "@/components/loader";
@@ -82,7 +83,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} ${bricolage.variable} ${mono.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" data-loader="loading" className={`${inter.variable} ${bricolage.variable} ${mono.variable}`}>
       <body className="min-h-screen antialiased">
         <script
           type="application/ld+json"

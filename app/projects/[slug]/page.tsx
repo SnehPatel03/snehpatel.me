@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { projects, getProject } from "@/lib/data";
 import { site } from "@/lib/site";
-import { ProjectMockup } from "@/components/mockups";
 import { ProjectLinks } from "@/components/project";
 import { Reveal } from "@/components/reveal";
 
@@ -78,10 +77,6 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             <ProjectLinks project={project} />
           </div>
         </div>
-      </Reveal>
-
-      <Reveal className="case-study-media mt-12 sm:mt-16">
-        <ProjectMockup project={project} priority presentation="showcase" />
       </Reveal>
 
       <Reveal className="case-study-overview mt-20 grid gap-10 border-y border-line py-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16 lg:py-14">

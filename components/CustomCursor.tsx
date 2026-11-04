@@ -13,7 +13,6 @@ const CURSOR_CONFIG = {
   dragRingSize: 64,
   inputCursorWidth: 2,
   inputCursorHeight: 24,
-  clickScale: 0.8,
   ringLerp: 0.28,
   ringSnapDistance: 140,
   dotColor: "#ffffff",
@@ -157,11 +156,9 @@ export function CustomCursor() {
         updateHover(event.target, event.clientX, event.clientY);
       }
     };
-    const onMouseDown = () => ring.classList.add("cursor-ring--pressed");
-    const onMouseUp = () => ring.classList.remove("cursor-ring--pressed");
     const onDocumentLeave = () => {
       dot.classList.remove("cursor-visible");
-      ring.classList.remove("cursor-visible", "cursor-ring--pressed");
+      ring.classList.remove("cursor-visible");
     };
     const onDocumentEnter = () => {
       if (!hasPointer) return;
@@ -172,8 +169,6 @@ export function CustomCursor() {
     document.documentElement.classList.add("has-custom-cursor");
     document.addEventListener("pointermove", onPointerMove, { passive: true });
     document.addEventListener("pointerover", onPointerOver, { passive: true });
-    document.addEventListener("mousedown", onMouseDown);
-    document.addEventListener("mouseup", onMouseUp);
     document.addEventListener("mouseleave", onDocumentLeave);
     document.addEventListener("mouseenter", onDocumentEnter);
 
@@ -181,8 +176,6 @@ export function CustomCursor() {
       document.documentElement.classList.remove("has-custom-cursor");
       document.removeEventListener("pointermove", onPointerMove);
       document.removeEventListener("pointerover", onPointerOver);
-      document.removeEventListener("mousedown", onMouseDown);
-      document.removeEventListener("mouseup", onMouseUp);
       document.removeEventListener("mouseleave", onDocumentLeave);
       document.removeEventListener("mouseenter", onDocumentEnter);
       cancelAnimationFrame(animationFrame);
@@ -214,7 +207,6 @@ export function CustomCursor() {
           "--cursor-drag-color": CURSOR_CONFIG.dragColor,
           "--cursor-input-width": `${CURSOR_CONFIG.inputCursorWidth}px`,
           "--cursor-input-height": `${CURSOR_CONFIG.inputCursorHeight}px`,
-          "--cursor-pressed-scale": CURSOR_CONFIG.clickScale,
         } as CSSProperties & {
           "--cursor-ring-hover-scale": number;
           "--cursor-contrast-size": string;
@@ -224,7 +216,6 @@ export function CustomCursor() {
           "--cursor-drag-color": string;
           "--cursor-input-width": string;
           "--cursor-input-height": string;
-          "--cursor-pressed-scale": number;
         }}
       >
         <span className="custom-cursor__label" />

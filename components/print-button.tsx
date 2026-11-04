@@ -1,5 +1,5 @@
 "use client";
 
 export function PrintButton() {
-  return <button type="button" onClick={() => window.print()} className="chip min-h-11 hover:border-accent hover:text-accent">Print this page</button>;
+  return <button type="button" onClick={() => window.print()} className="fill-hover chip min-h-11">Print this page</button>;
 }
