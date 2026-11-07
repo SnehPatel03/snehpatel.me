@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore } from "react";
-import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import Image from "next/image";
 import { site } from "@/lib/site";
 
@@ -26,6 +26,8 @@ export function Nav() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [loaderComplete, setLoaderComplete] = useState(false);
+  const [menuOpenForPath, setMenuOpenForPath] = useState<string | null>(null);
+  const menuOpen = menuOpenForPath === pathname;
   const reduceMotion = useReducedMotion();
   const shortcutModifier = useSyncExternalStore(
     subscribeToPlatform,
@@ -56,6 +58,15 @@ export function Nav() {
       observer.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpenForPath(null);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [menuOpen]);
 
   return (
     <motion.header
@@ -104,7 +115,56 @@ export function Nav() {
         >
           GitHub <span aria-hidden="true" className="ml-1">↗</span>
         </a>
+        <button
+          type="button"
+          className={`mobile-menu-toggle${menuOpen ? " is-open" : ""}`}
+          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-primary-navigation"
+          onClick={() => setMenuOpenForPath(menuOpen ? null : pathname)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
       </div>
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.nav
+            id="mobile-primary-navigation"
+            aria-label="Mobile primary"
+            className="mobile-nav-panel"
+            initial={{ opacity: 0, y: -8, scale: 0.985 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.985 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="mobile-nav-links">
+              {links.map((link, index) => (
+                <a
+                  key={link.href}
+                  href={link.page ? "/resume" : pathname === "/" ? `#${link.href}` : `/#${link.href}`}
+                  className="mobile-nav-link"
+                  aria-current={link.page && pathname === "/resume" ? "page" : undefined}
+                  data-analytics-event={
+                    link.href === "resume" ? "resume_click" : link.href === "contact" ? "contact_click" : undefined
+                  }
+                  onClick={() => setMenuOpenForPath(null)}
+                >
+                  <span className="mobile-nav-index">{String(index + 1).padStart(2, "0")}</span>
+                  <span>{link.label}</span>
+                  <span className="mobile-nav-arrow" aria-hidden="true">↗</span>
+                </a>
+              ))}
+            </div>
+            <div className="mobile-nav-utilities">
+              <a href={site.github} target="_blank" rel="noopener noreferrer" className="mobile-nav-utility">
+                GitHub <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }

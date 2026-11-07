@@ -182,22 +182,25 @@ function DropeeMock() {
 
 function WatchMock() {
   return (
-    <div className="flex h-full flex-col bg-[#10100e] px-4 py-3 sm:px-7 sm:py-5" aria-hidden="true">
-      <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-        <span className="text-[9px] font-semibold text-fg sm:text-xs">
-          Watch<span className="text-accent">Wise</span>
+    <div className="watchwise-preview flex h-full flex-col" aria-hidden="true">
+      <div className="watchwise-preview-header flex items-center justify-between">
+        <span className="watchwise-preview-brand inline-flex items-center gap-2 font-semibold">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 8.5h16v11H4zM4 8.5l1-4 4 1-1 4m0-4 4-1 1 4m0-4 4-1 1 4m0-4 4-1 1 4" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+          </svg>
+          <span>Watch<span>Wise</span></span>
         </span>
-        <span className="rounded-md border border-accent/50 px-2 py-1 text-[7px] text-accent sm:text-[9px]">Find a movie</span>
+        <span className="watchwise-preview-header-cta">Find a movie</span>
       </div>
-      <div className="flex flex-1 flex-col items-center justify-center">
-        <p className="mb-2 font-mono text-[7px] font-semibold tracking-[.2em] text-accent sm:text-[9px]">MOVIE NIGHT, SORTED</p>
-        <h2 className="max-w-[12em] text-center text-lg font-bold leading-tight tracking-[-.05em] text-fg sm:text-4xl">
-          Find a film <span className="text-accent">worth watching.</span>
+      <div className="watchwise-preview-hero">
+        <p className="watchwise-preview-kicker">Movie night, sorted</p>
+        <h2 className="watchwise-preview-title">
+          Find a film <span>worth watching.</span>
         </h2>
-        <p className="mt-2 max-w-md text-center text-[8px] leading-relaxed text-fg/60 sm:mt-3 sm:text-sm">
+        <p className="watchwise-preview-description">
           Tell us what you&apos;re in the mood for. We&apos;ll find a few good matches.
         </p>
-        <span className="mt-3 inline-flex items-center gap-2 rounded-md bg-accent px-3 py-1.5 text-[8px] font-semibold text-black sm:mt-5 sm:px-4 sm:py-2 sm:text-[10px]">
+        <span className="watchwise-preview-button">
           Find my movie <span aria-hidden="true">→</span>
         </span>
       </div>

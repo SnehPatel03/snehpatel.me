@@ -37,28 +37,28 @@ export function SectionHead({
 
 export function Hero() {
   return (
-    <section id="top" data-reveal className="relative flex min-h-[calc(100svh-4.5rem)] flex-col overflow-hidden px-5 pb-5 pt-28 sm:px-10 sm:pb-7 sm:pt-32">
+    <section id="top" data-reveal className="hero-landing relative flex min-h-[calc(100svh-4.5rem)] flex-col overflow-hidden px-5 pb-5 pt-28 sm:px-10 sm:pb-7 sm:pt-32">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 border-b border-line/80 pb-4">
         <p className="label flex items-center gap-3"><span className="size-2 rounded-full bg-emerald-600 shadow-[0_0_16px_rgba(208,195,174,.6)]" aria-hidden="true" />Available for internships &amp; full-time roles</p>
         <p className="label hidden text-right sm:block">{site.location}</p>
       </div>
-      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center py-14 sm:py-20">
+      <div className="hero-main mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center py-14 sm:py-20">
         <div>
-          <p className="label mb-6 flex items-center gap-3"><span className="text-accent">01</span><span className="h-px w-10 bg-line" />Full stack developer <span className="text-accent">/</span> Surat, India</p>
+          <p className="hero-meta label mb-6 flex items-center gap-3"><span className="hero-meta-index text-accent">01</span><span className="hero-meta-rule h-px w-10 bg-line" /><span className="hero-meta-role">Full stack developer</span><span className="hero-meta-divider text-accent">/</span><span className="hero-meta-location">Surat, India</span></p>
           <h1
             data-cursor="contrast"
             className="hero-name display-type max-w-full text-[clamp(4.5rem,15vw,13rem)] font-bold uppercase leading-[.82] tracking-[-0.09em] lg:whitespace-nowrap"
           >
             <TextReveal>
-              Sneh <span className="text-fg">Patel</span>
+              Sneh <br className="hero-name-break sm:hidden" /><span className="text-fg">Patel</span>
             </TextReveal>
           </h1>
         </div>
-        <div className="mt-10 flex flex-col justify-between gap-8 border-t border-line pt-6 sm:mt-14 sm:flex-row sm:items-end sm:pt-8">
+        <div className="hero-intro mt-10 flex flex-col justify-between gap-8 border-t border-line pt-6 sm:mt-14 sm:flex-row sm:items-end sm:pt-8">
           <div className="max-w-2xl">
             <p className="text-lg leading-relaxed text-mute sm:text-2xl">Full stack developer building useful AI products, real-time systems and thoughtful digital experiences.</p>
           </div>
-          <div className="flex shrink-0 flex-wrap gap-3">
+          <div className="hero-actions flex shrink-0 flex-wrap gap-3">
             <Link href="/#work" className="fill-hover group inline-flex min-h-12 items-center gap-5 rounded-full bg-fg px-6 text-sm font-semibold text-bg transition hover:-translate-y-0.5 focus-visible:outline-offset-4">
               View selected work <span aria-hidden="true" className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1">↗</span>
             </Link>
@@ -66,7 +66,7 @@ export function Hero() {
           </div>
         </div>
       </div>
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between border-t border-line/80 pt-4">
+      <div className="hero-bottom mx-auto flex w-full max-w-7xl items-center justify-between border-t border-line/80 pt-4">
         <p className="label">Portfolio <span className="px-1 text-accent">/</span> 2026</p>
         <a href="#about" className="label group inline-flex min-h-11 items-center gap-3 hover:text-fg"><span>Scroll to explore</span><span aria-hidden="true" className="text-accent transition-transform group-hover:translate-y-1">↓</span></a>
         <p className="label hidden sm:block">Go with EASE.i dont</p>

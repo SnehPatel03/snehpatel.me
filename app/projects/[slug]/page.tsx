@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { projects, getProject } from "@/lib/data";
 import { site } from "@/lib/site";
 import { ProjectLinks } from "@/components/project";
+import { ProjectMockup } from "@/components/mockups";
 import { Reveal } from "@/components/reveal";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 
@@ -123,20 +124,26 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         <p className="label mt-6">Case study updated <time dateTime={caseStudyUpdatedAt}>{new Intl.DateTimeFormat("en-IN", { dateStyle: "long", timeZone: "UTC" }).format(new Date(`${caseStudyUpdatedAt}T00:00:00Z`))}</time></p>
       </Reveal>
 
-      {project.screenshot && (
+      {(project.screenshot || project.screenshotMobile) && (
         <Reveal className="case-study-media mt-12">
           <figure>
-            <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-line bg-surface">
-              <Image
-                src={project.screenshot}
-                alt={`${project.name} interface for ${project.tagline.toLowerCase()}`}
-                fill
-                sizes="(max-width: 1024px) 100vw, 88vw"
-                className="object-cover"
-                priority
-              />
-            </div>
-            <figcaption className="label mt-3">{project.name} application screenshot</figcaption>
+            {project.screenshot ? (
+              <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-line bg-surface">
+                <Image
+                  src={project.screenshot}
+                  alt={`${project.name} interface for ${project.tagline.toLowerCase()}`}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 88vw"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            ) : (
+              <ProjectMockup project={project} presentation="showcase" />
+            )}
+            <figcaption className="label mt-3">
+              {project.name} {project.screenshot ? "application screenshot" : "desktop and mobile application preview"}
+            </figcaption>
           </figure>
         </Reveal>
       )}
