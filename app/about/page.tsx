@@ -45,4 +45,4 @@ export default function AboutPage() {
       <Contact />
     </div>
   );
-}
+} 
