@@ -5,7 +5,7 @@ export const site = {
   heroIntro: "I build conversational AI tools, real-time applications and secure full-stack platforms.",
   description:
     "Sneh Patel is a full stack developer in Surat, India, building AI products and web platforms with React, Next.js, TypeScript and PostgreSQL. Explore his work.",
-  url: "https://snehpatel.dev",
+  url: "https://snehpatel.me",
   contentUpdatedAt: "2026-11-04",
   email: "snehpatel1233@gmail.com",
   github: "https://github.com/SnehPatel03",

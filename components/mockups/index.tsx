@@ -182,20 +182,24 @@ function DropeeMock() {
 
 function WatchMock() {
   return (
-    <div className="flex h-full flex-col p-3 sm:p-5" aria-hidden="true">
-      <div className="mb-3 flex items-center gap-2 rounded-full border border-line px-3 py-1.5 text-[8px] text-mute sm:text-[10px]">
-        <span className="text-accent">✦</span> Something tense, under two hours, great ending…
+    <div className="flex h-full flex-col bg-[#10100e] px-4 py-3 sm:px-7 sm:py-5" aria-hidden="true">
+      <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+        <span className="text-[9px] font-semibold text-fg sm:text-xs">
+          Watch<span className="text-accent">Wise</span>
+        </span>
+        <span className="rounded-md border border-accent/50 px-2 py-1 text-[7px] text-accent sm:text-[9px]">Find a movie</span>
       </div>
-      <div className="grid flex-1 grid-cols-5 gap-2">
-        {[0, 1, 2, 3, 4].map((i) => (
-          <div key={i} className="flex flex-col overflow-hidden rounded-md border border-line">
-            <div className="flex-1 bg-gradient-to-b from-[#26262b] to-[#101012]" style={{ filter: `hue-rotate(${i * 25}deg)` }} />
-            <div className="space-y-1 p-1.5">
-              <div className={`${bar} h-1 w-4/5`} />
-              <p className="font-mono text-[7px] text-accent">★ {(7.2 + i * 0.4).toFixed(1)}</p>
-            </div>
-          </div>
-        ))}
+      <div className="flex flex-1 flex-col items-center justify-center">
+        <p className="mb-2 font-mono text-[7px] font-semibold tracking-[.2em] text-accent sm:text-[9px]">MOVIE NIGHT, SORTED</p>
+        <h2 className="max-w-[12em] text-center text-lg font-bold leading-tight tracking-[-.05em] text-fg sm:text-4xl">
+          Find a film <span className="text-accent">worth watching.</span>
+        </h2>
+        <p className="mt-2 max-w-md text-center text-[8px] leading-relaxed text-fg/60 sm:mt-3 sm:text-sm">
+          Tell us what you&apos;re in the mood for. We&apos;ll find a few good matches.
+        </p>
+        <span className="mt-3 inline-flex items-center gap-2 rounded-md bg-accent px-3 py-1.5 text-[8px] font-semibold text-black sm:mt-5 sm:px-4 sm:py-2 sm:text-[10px]">
+          Find my movie <span aria-hidden="true">→</span>
+        </span>
       </div>
     </div>
   );

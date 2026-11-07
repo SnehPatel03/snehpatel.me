@@ -26,7 +26,7 @@ npm run build
 
 To add a project, add one typed entry in `lib/data.ts` with a unique slug, live URL, one or more repos, summary, highlights, stack and featured flag. The Work selector, sitemap and static case-study pages are generated from this data. The old `/projects` index redirects to `/#work` so all projects stay in one place.
 
-Current portfolio previews use WebP captures from each project's public live page in `public/projects/`. Refresh them after meaningful UI changes by capturing the deployed URL at 1600×1000. Built-in UI mockups remain available as a fallback when no screenshot path is set.
+Most portfolio previews use WebP captures from each project's public live page in `public/projects/`. Refresh them after meaningful UI changes by capturing the deployed URL at 1600×1000. Projects without a current capture use a built-in UI mockup.
 
 ## Resume
 
@@ -42,4 +42,4 @@ Per-route metadata/canonicals, Open Graph, sitemap, robots, manifest, JSON-LD, s
 
 ## Owner TODOs
 
-See `ownerTodos` in `lib/data.ts`: WatchWise details, WhisperPDF LangGraph confirmation, production domain, and resume PDF. Unconfirmed WatchWise role and stack are not shown on the page.
+See `ownerTodos` in `lib/data.ts` for remaining content and asset follow-ups.

@@ -33,7 +33,7 @@ const projectSeo: Record<string, { title: string; description: string }> = {
   },
   watchwise: {
     title: "WatchWise: AI Movie Recommendation App",
-    description: "Explore WatchWise, Sneh Patel’s AI movie recommender built with React, Express, Gemini and OMDb. See the recommendation flow, stack, live demo and source.",
+    description: "Explore WatchWise, Sneh Patel’s movie discovery app for mood, genre, language, era and custom notes. See its Gemini recommendation flow, OMDb details and source.",
   },
   bytebudget: {
     title: "ByteBudget: Expense Tracker App Project",

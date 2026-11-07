@@ -19,18 +19,18 @@ curl -sS "$BASE$route" | grep -oiE '<title>[^<]*</title>|<meta name="description
 
 | Route | HTTP | Title | Description chars | Canonical | Server-rendered H1 |
 |---|---:|---|---:|---|---|
-| `/` | 200 | Sneh Patel \| Full Stack Developer in Surat, Gujarat | 158 | `https://snehpatel.dev` | Sneh Patel |
-| `/about` | 200 | About Sneh Patel: Full Stack Developer \| Sneh Patel | 149 | `https://snehpatel.dev/about` | About Sneh Patel. |
-| `/projects` | 200 | AI & Full Stack Projects by Sneh Patel \| Sneh Patel | 157 | `https://snehpatel.dev/projects` | Projects by Sneh Patel. |
-| `/projects/gurukul` | 200 | Gurukul: Web & Mobile School Platform \| Sneh Patel | 154 | `https://snehpatel.dev/projects/gurukul` | Gurukul |
-| `/projects/opal` | 200 | OPAL: AI Screen Recording Workspace Project \| Sneh Patel | 155 | `https://snehpatel.dev/projects/opal` | OPAL |
-| `/projects/whisperpdf` | 200 | WhisperPDF: LangChain PDF Chatbot Project \| Sneh Patel | 153 | `https://snehpatel.dev/projects/whisperpdf` | WhisperPDF |
-| `/projects/quizsprint` | 200 | QuizSprint: Real-Time Quiz App Project \| Sneh Patel | 159 | `https://snehpatel.dev/projects/quizsprint` | QuizSprint |
-| `/projects/dropee` | 200 | Dropee: Full-Stack Cloud Storage Project \| Sneh Patel | 160 | `https://snehpatel.dev/projects/dropee` | Dropee |
-| `/projects/watchwise` | 200 | WatchWise: AI Movie Recommendation App \| Sneh Patel | 154 | `https://snehpatel.dev/projects/watchwise` | WatchWise |
-| `/projects/bytebudget` | 200 | ByteBudget: Expense Tracker App Project \| Sneh Patel | 160 | `https://snehpatel.dev/projects/bytebudget` | ByteBudget |
-| `/contact` | 200 | Contact Sneh Patel, Full Stack Developer \| Sneh Patel | 159 | `https://snehpatel.dev/contact` | Contact Sneh Patel. |
-| `/resume` | 200 | Sneh Patel Resume: Full Stack Developer \| Sneh Patel | 159 | `https://snehpatel.dev/resume` | Sneh Patel |
+| `/` | 200 | Sneh Patel \| Full Stack Developer in Surat, Gujarat | 158 | `https://snehpatel.me` | Sneh Patel |
+| `/about` | 200 | About Sneh Patel: Full Stack Developer \| Sneh Patel | 149 | `https://snehpatel.me/about` | About Sneh Patel. |
+| `/projects` | 200 | AI & Full Stack Projects by Sneh Patel \| Sneh Patel | 157 | `https://snehpatel.me/projects` | Projects by Sneh Patel. |
+| `/projects/gurukul` | 200 | Gurukul: Web & Mobile School Platform \| Sneh Patel | 154 | `https://snehpatel.me/projects/gurukul` | Gurukul |
+| `/projects/opal` | 200 | OPAL: AI Screen Recording Workspace Project \| Sneh Patel | 155 | `https://snehpatel.me/projects/opal` | OPAL |
+| `/projects/whisperpdf` | 200 | WhisperPDF: LangChain PDF Chatbot Project \| Sneh Patel | 153 | `https://snehpatel.me/projects/whisperpdf` | WhisperPDF |
+| `/projects/quizsprint` | 200 | QuizSprint: Real-Time Quiz App Project \| Sneh Patel | 159 | `https://snehpatel.me/projects/quizsprint` | QuizSprint |
+| `/projects/dropee` | 200 | Dropee: Full-Stack Cloud Storage Project \| Sneh Patel | 160 | `https://snehpatel.me/projects/dropee` | Dropee |
+| `/projects/watchwise` | 200 | WatchWise: AI Movie Recommendation App \| Sneh Patel | 154 | `https://snehpatel.me/projects/watchwise` | WatchWise |
+| `/projects/bytebudget` | 200 | ByteBudget: Expense Tracker App Project \| Sneh Patel | 160 | `https://snehpatel.me/projects/bytebudget` | ByteBudget |
+| `/contact` | 200 | Contact Sneh Patel, Full Stack Developer \| Sneh Patel | 159 | `https://snehpatel.me/contact` | Contact Sneh Patel. |
+| `/resume` | 200 | Sneh Patel Resume: Full Stack Developer \| Sneh Patel | 159 | `https://snehpatel.me/resume` | Sneh Patel |
 
 Every listed route has exactly one H1. The raw HTML parser confirmed 140–160-character descriptions, `summary_large_image` Twitter cards, a unique route-specific `og:image`, and valid JSON in every JSON-LD block.
 
@@ -49,7 +49,7 @@ The JSON-LD blocks parsed as valid JSON locally. Google’s Rich Results Test an
 
 ## Robots, sitemap, icons, and social images
 
-- `robots.txt` returned 200 with `Allow: /`, `Disallow: /api/`, and `Sitemap: https://snehpatel.dev/sitemap.xml`.
+- `robots.txt` returned 200 with `Allow: /`, `Disallow: /api/`, and `Sitemap: https://snehpatel.me/sitemap.xml`.
 - `sitemap.xml` returned 200 and listed all 12 canonical URLs, each with `<lastmod>2026-11-04T00:00:00.000Z</lastmod>`.
 - `/favicon.ico`, `/apple-icon.png` (180×180), `/icon.svg`, and `/site.webmanifest` returned 200 with expected image/manifest content types. The HTML head linked all four.
 - The Home, About, Projects, Contact, Resume, and all seven project Open Graph image endpoints returned 200 `image/png`.
@@ -60,8 +60,8 @@ The JSON-LD blocks parsed as valid JSON locally. Google’s Rich Results Test an
 Local production-server checks returned:
 
 ```text
-www host:      308 https://snehpatel.dev/about
-forwarded http: 308 https://snehpatel.dev/about
+www host:      308 https://snehpatel.me/about
+forwarded http: 308 https://snehpatel.me/about
 trailing slash: 308 http://127.0.0.1:3000/about
 ```
 
@@ -74,7 +74,7 @@ Mobile and desktop Lighthouse scores were **not run**: no Lighthouse runner or b
 ## Remaining deployment and content items
 
 1. Set `NEXT_PUBLIC_GA_MEASUREMENT_ID` to the real GA4 `G-...` ID. The integration and event hooks are present, but the tag is correctly not loaded while that variable is unset.
-2. Set `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` after verifying domain ownership, then submit `https://snehpatel.dev/sitemap.xml` in both webmaster tools.
+2. Set `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` after verifying domain ownership, then submit `https://snehpatel.me/sitemap.xml` in both webmaster tools.
 3. Configure and verify the apex/`www` aliases, HTTPS termination, and CDN in the hosting provider. App-level redirects were tested with local host and forwarded-protocol headers; external DNS/TLS configuration was not available.
 4. Run Lighthouse on mobile and desktop against the deployed URL, and run Google Rich Results Test plus Schema Markup Validator against deployed pages.
 5. Add first-hand problem statements and verified measurable outcomes for project case studies when Sneh provides them. The existing project data does not contain reliable result metrics, so none were invented.

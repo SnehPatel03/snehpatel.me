@@ -8,14 +8,14 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/:path*",
-        has: [{ type: "host", value: "www.snehpatel.dev" }],
-        destination: "https://snehpatel.dev/:path*",
+        has: [{ type: "host", value: "www.snehpatel.me" }],
+        destination: "https://snehpatel.me/:path*",
         permanent: true,
       },
       {
         source: "/:path*",
         has: [{ type: "header", key: "x-forwarded-proto", value: "http" }],
-        destination: "https://snehpatel.dev/:path*",
+        destination: "https://snehpatel.me/:path*",
         permanent: true,
       },
     ];

@@ -1,6 +1,6 @@
 # SEO implementation
 
-Canonical origin: `https://snehpatel.dev` (HTTPS, no `www`, no trailing slash).
+Canonical origin: `https://snehpatel.me` (HTTPS, no `www`, no trailing slash).
 
 ## Page-to-keyword map and metadata
 
@@ -41,16 +41,16 @@ The custom 404 page is `noindex,follow`; it is not an indexable landing page. Bl
   - `GOOGLE_SITE_VERIFICATION`
   - `BING_SITE_VERIFICATION`
 - GA4 is selected and its code is deferred until `lazyOnload`. Set `NEXT_PUBLIC_GA_MEASUREMENT_ID` to the real `G-...` measurement ID to enable it. Tracked events: page views, contact links/form success, resume clicks/downloads, and project/case-study links. Google Signals and ad personalization are disabled.
-- Submit `https://snehpatel.dev/sitemap.xml` in Google Search Console and Bing Webmaster Tools after domain ownership is verified.
+- Submit `https://snehpatel.me/sitemap.xml` in Google Search Console and Bing Webmaster Tools after domain ownership is verified.
 - The site does not include an IndexNow key or deployment hook; add those only after choosing and storing a real key.
 - Static assets use Next.js production asset handling. CDN selection, DNS aliases, TLS termination and canonical-domain settings must also be confirmed in the hosting provider.
 - Review consent and privacy-notice requirements for GA4 based on the site’s audience and applicable jurisdictions before deployment.
 
 ## Off-page checklist (manual)
 
-- [ ] Complete the GitHub profile README and link it to `https://snehpatel.dev`.
+- [ ] Complete the GitHub profile README and link it to `https://snehpatel.me`.
 - [ ] Update LinkedIn with the same name, bio, role focus and portfolio URL.
 - [ ] Create or update Dev.to or Hashnode, Medium, Product Hunt and Peerlist profiles with consistent name, bio and site URL.
 - [ ] Publish 2–4 original technical write-ups based on completed work (for example, the WhisperPDF RAG pipeline or OPAL desktop/web synchronization) and link each to its case study.
-- [ ] Add `https://snehpatel.dev` to the About field and README of each relevant GitHub repository.
+- [ ] Add `https://snehpatel.me` to the About field and README of each relevant GitHub repository.
 - [ ] Do not buy links or use link farms or private blog networks.
